@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/app-shell/sidebar";
 import { SkipLink } from "@/components/app-shell/skip-link";
+import { TabBar } from "@/components/app-shell/tab-bar";
 import { Topbar } from "@/components/app-shell/topbar";
 import { requireUser } from "@/lib/auth/session";
 
@@ -16,11 +17,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         <main
           id="main"
           tabIndex={-1}
-          className="mx-auto w-full max-w-7xl px-4 py-8 focus:outline-none sm:px-6 lg:px-10"
+          className="mx-auto w-full max-w-6xl px-4 pt-6 pb-[calc(var(--tabbar-height)+env(safe-area-inset-bottom)+2.5rem)] focus:outline-none sm:px-6 sm:pt-10 lg:px-10 lg:pb-16"
         >
           {children}
         </main>
       </div>
+      <TabBar user={user} />
     </div>
   );
 }

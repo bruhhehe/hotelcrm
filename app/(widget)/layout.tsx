@@ -1,7 +1,9 @@
+import { GuestFrame } from "@/components/app-shell/powered-by";
+
 /**
- * Public booking widget (/stay/[slug]). Kept chrome-free so it embeds cleanly in an iframe;
+ * Public booking widget (/stay/[slug]). Embeddable in an iframe on the hotel's own site;
  * hotel branding (logo, colour) is applied per hotel once hotels exist (Phase 8).
  */
 export default function WidgetLayout({ children }: { children: React.ReactNode }) {
-  return <main className="min-h-dvh bg-background">{children}</main>;
+  return <GuestFrame>{children}</GuestFrame>;
 }

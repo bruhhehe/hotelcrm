@@ -21,6 +21,9 @@ export function DialogOverlay({
   );
 }
 
+export const closeButtonClass =
+  "absolute top-3 right-3 flex size-10 items-center justify-center rounded-full text-foreground hover:bg-muted pointer-coarse:size-11";
+
 export function DialogContent({
   className,
   children,
@@ -32,15 +35,15 @@ export function DialogContent({
       <DialogOverlay />
       <DialogPrimitive.Content
         className={cn(
-          "fixed top-[15%] left-1/2 z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 rounded-2xl border bg-card p-6 shadow-xl outline-none",
+          "fixed top-[12%] left-1/2 z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 rounded-xl bg-card p-6 shadow-float outline-none",
           className,
         )}
         {...props}
       >
         {children}
         {hideClose ? null : (
-          <DialogPrimitive.Close className="absolute top-3 right-3 flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:size-11">
-            <XIcon className="size-4" />
+          <DialogPrimitive.Close className={closeButtonClass}>
+            <XIcon className="size-[18px]" />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         )}
@@ -62,7 +65,7 @@ export function DialogDescription({
 }: React.ComponentProps<typeof DialogPrimitive.Description>) {
   return (
     <DialogPrimitive.Description
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-[15px] text-muted-foreground", className)}
       {...props}
     />
   );

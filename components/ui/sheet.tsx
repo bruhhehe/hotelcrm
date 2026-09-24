@@ -4,33 +4,41 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { DialogOverlay } from "./dialog";
+import { closeButtonClass, DialogOverlay } from "./dialog";
 
 export const Sheet = DialogPrimitive.Root;
 export const SheetTrigger = DialogPrimitive.Trigger;
 export const SheetClose = DialogPrimitive.Close;
 export const SheetTitle = DialogPrimitive.Title;
 
+const sideClass = {
+  left: "inset-y-0 left-0 w-[min(var(--sidebar-width),85vw)]",
+  right: "inset-y-0 right-0 w-[min(var(--sidebar-width),85vw)]",
+  /** Phone menus: a sheet that rises from the tab bar, clear of the home indicator. */
+  bottom:
+    "inset-x-0 bottom-0 max-h-[88dvh] rounded-t-2xl pb-[env(safe-area-inset-bottom)] overflow-y-auto",
+} as const;
+
 export function SheetContent({
   className,
   children,
   side = "left",
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content> & { side?: "left" | "right" }) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & { side?: keyof typeof sideClass }) {
   return (
     <DialogPrimitive.Portal>
       <DialogOverlay />
       <DialogPrimitive.Content
         className={cn(
-          "fixed inset-y-0 z-50 flex w-[min(var(--sidebar-width),85vw)] flex-col bg-sidebar shadow-xl outline-none",
-          side === "left" ? "left-0 border-r" : "right-0 border-l",
+          "fixed z-50 flex flex-col bg-background shadow-float outline-none",
+          sideClass[side],
           className,
         )}
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute top-3 right-3 flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:size-11">
-          <XIcon className="size-4" />
+        <DialogPrimitive.Close className={closeButtonClass}>
+          <XIcon className="size-[18px]" />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
       </DialogPrimitive.Content>

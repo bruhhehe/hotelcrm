@@ -8,16 +8,12 @@ export function TrialPill({ trialEndsAt, now = new Date() }: { trialEndsAt: Date
   return (
     <Link
       href="/settings/billing"
-      className="inline-flex min-h-11 shrink-0 items-center rounded-full"
+      className={cn(
+        "inline-flex min-h-11 shrink-0 items-center rounded-full border px-3.5 text-sm font-semibold whitespace-nowrap hover:shadow-pill pointer-fine:min-h-9",
+        days <= 3 && "border-warning-border bg-warning text-warning-foreground",
+      )}
     >
-      <span
-        className={cn(
-          "rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap",
-          days <= 3 ? "bg-warning text-warning-foreground" : "bg-primary-soft text-primary",
-        )}
-      >
-        {trialLabel(days)}
-      </span>
+      {trialLabel(days)}
     </Link>
   );
 }

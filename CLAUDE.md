@@ -8,10 +8,10 @@
 - **DB access:** `getDb()` from `@/lib/db`, never at module top level. Tenant queries go through `db.forHotel(hotelId)` (Phase 2+).
 - **Env:** add new keys to `lib/env/schema.ts` **and** `.env.example`. A test checks they stay in sync. Integration keys are optional; gate features with `isConfigured()` from `@/lib/integrations`.
 - **Auth:** `requireUser()` in `(app)` server code. Staff and guest auth never share tables or cookies.
-- **UI:** primitives in `components/ui`, shell in `components/app-shell`. Use tokens (`bg-primary`, `bg-warning`, `micro-label`, `font-display`), never raw hex in components.
+- **UI:** primitives in `components/ui`, shell in `components/app-shell`. Use tokens (`bg-primary`, `bg-muted`, `text-muted-foreground`, `border-input`, `shadow-float`), never raw hex in components. Figtree only; sentence case; no tracked-caps labels.
 - **Dates:** format in the hotel's timezone (`lib/format/greeting.ts` pattern). The server runs in UTC.
 - **Money / availability / pricing:** pure functions with Vitest tests, integer minor units.
-- **Design work:** the `/impeccable` skill is installed (`.claude/skills/impeccable`). Use `/impeccable audit|critique|polish <target>` on UI surfaces before calling a phase done. The spec's §9 design system wins wherever the two disagree: the cream background and the Fraunces + Inter pairing are pinned by the brief and are recorded as detector exceptions in `.impeccable/config.json`.
+- **Design work:** the `/impeccable` skill is installed (`.claude/skills/impeccable`). Use `/impeccable audit|critique|polish <target>` on UI surfaces before calling a phase done. `DESIGN.md` records the visual system (spec §9 is its brief); extend it rather than reinventing it.
 - **Docs:** record choices in `DECISIONS.md` and deferrals in `TODO.md` in the same commit.
 - **Commits:** conventional commits, one per phase (or smaller). Stop for review after each phase.
 
@@ -144,7 +144,7 @@ Sidebar (exactly this order, mirroring the reference product): **Dashboard · Ca
 
 - Greeting "Good morning, Robert." + date + "Here's what's happening at The Fell View Hotel today." + big green **Create reservation** button.
 - **Action needed** banner (amber): "N reservations require your validation" → links to filtered list. Also surfaces: rooms out of order, unpaid balances due today, guests arriving with no room assigned.
-- **Today at a glance** (auto-refresh every 15 s via polling; 4 cards with coloured left rule):
+- **Today at a glance** (auto-refresh every 15 s via polling; 4 cards styled per §9, no coloured left rules):
   - Arrivals today `6 / 8` — 6 of 8 checked in
   - Departures today `1 / 3` — 1 of 3 checked out
   - Guests in house `12`
@@ -301,9 +301,13 @@ Each integration has a `isConfigured()` and the UI shows a friendly "Connect X i
 
 ## 9. Design system
 
-Match the reference product's refreshed look: **warm cream background (`#FAF8F3`), off-black text, serif display font for headings (Fraunces or Playfair Display), sans body (Inter/Geist), deep green primary (`#1F7A3D`) for CTAs, amber "action needed" banners (`#FDF0BE` bg / `#8A4B00` text), KPI cards with a 4-px coloured left rule (green / indigo / teal / orange), letter-spaced uppercase micro-labels, rounded-2xl cards, generous whitespace.** Dark mode not required v1. Left sidebar 300 px with "NAVIGATE" section label, active item cream-highlighted with green left rule. Everything responsive; reservations list and housekeeping board must be excellent on a phone.
+> **Revised 2026-09-24 by the owner** (`/impeccable make it not look ai`). The original §9 (warm cream `#FAF8F3`, Fraunces/Playfair serif headings, Inter, rounded-2xl cards, tracked-caps micro-labels, KPI cards with a 4px coloured left rule, 300px sidebar with a "NAVIGATE" label) read as AI-generated and is **retired**. The recorded system lives in `DESIGN.md`; this section is the brief it answers to.
 
-Use `shadcn/ui` primitives but re-theme tokens in `globals.css`; do not ship the default shadcn grey look.
+Conventional hospitality SaaS at the craft level of the **Airbnb host app**: white surfaces, near-black ink (`#222`), soft grey hierarchy (`#6A6A6A` secondary, `#F7F7F7` fills, `#EBEBEB` hairlines), one green accent (`#0B7A55`) reserved for primary actions and selection, **Figtree** throughout with bold sentence-case headings and no tracked caps. 8px controls, 12px cards and menus, soft shadows only on floating layers (menus, dialogs, the search pill). Must not read as generic startup SaaS; must not drift back to cream-and-serif. Dark mode not required v1.
+
+Navigation: a slim white sidebar on desktop (order per §4); on phones a bottom tab bar (Dashboard, Calendar, Reservations, Guests, Menu) with the rest under Menu, the host-app pattern. Everything responsive; reservations list and housekeeping board must be excellent on a phone. Status and "action needed" states use soft tinted banners (amber for warnings), never a coloured left rule.
+
+Use `shadcn/ui`-style primitives re-themed in `globals.css`; do not ship the default shadcn grey look.
 
 ---
 

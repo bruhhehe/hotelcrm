@@ -1,4 +1,3 @@
-import { BedDouble } from "lucide-react";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/app-shell/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -18,13 +17,13 @@ export default async function DashboardPage() {
   return (
     <>
       <PageHeader
+        size="hero"
         title={`${greetingFor(now, DEFAULT_TIMEZONE)}, ${firstNameFor(user.name, user.email)}.`}
         description={
           <time dateTime={isoDateIn(now, DEFAULT_TIMEZONE)}>{longDate(now, DEFAULT_TIMEZONE)}</time>
         }
       />
       <EmptyState
-        icon={BedDouble}
         title="Nothing to show for today yet"
         description="Once your hotel's rooms, rates and reservations are in Lodgely, today's arrivals, departures, occupancy and revenue appear here."
       />

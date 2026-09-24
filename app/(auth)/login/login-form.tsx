@@ -1,6 +1,5 @@
 "use client";
 
-import { Mail } from "lucide-react";
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,9 +11,9 @@ export function MagicLinkForm({ callbackUrl }: { callbackUrl: string | undefined
   const [state, formAction, pending] = useActionState<SignInState, FormData>(signInWithEmail, {});
 
   return (
-    <form action={formAction} className="flex flex-col gap-3" noValidate>
+    <form action={formAction} className="flex flex-col gap-2.5" noValidate>
       {callbackUrl ? <input type="hidden" name="callbackUrl" value={callbackUrl} /> : null}
-      <Label htmlFor="email">Work email</Label>
+      <Label htmlFor="email">Email</Label>
       <Input
         id="email"
         name="email"
@@ -30,12 +29,12 @@ export function MagicLinkForm({ callbackUrl }: { callbackUrl: string | undefined
         aria-describedby={state.error ? "email-error" : undefined}
       />
       {state.error ? (
-        <p id="email-error" role="alert" className="text-sm text-destructive">
+        <p id="email-error" role="alert" className="text-sm font-medium text-destructive">
           {state.error}
         </p>
       ) : null}
-      <Button type="submit" size="lg" disabled={pending} className="mt-1">
-        <Mail /> {pending ? "Sending link…" : "Email me a sign-in link"}
+      <Button type="submit" size="lg" disabled={pending} className="mt-3 w-full">
+        {pending ? "Sending link…" : "Email me a sign-in link"}
       </Button>
     </form>
   );

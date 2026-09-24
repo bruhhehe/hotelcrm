@@ -2,13 +2,13 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-const bannerVariants = cva("flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm", {
+const bannerVariants = cva("flex items-start gap-3 rounded-xl border px-4 py-3.5 text-[15px]", {
   variants: {
     variant: {
       warning: "border-warning-border bg-warning text-warning-foreground",
-      info: "bg-card text-foreground",
-      destructive: "border-destructive/20 bg-destructive-soft text-destructive",
-      success: "border-primary/20 bg-primary-soft text-primary",
+      info: "bg-background text-foreground",
+      destructive: "border-destructive/25 bg-destructive-soft text-destructive",
+      success: "border-primary/25 bg-primary-soft text-primary",
     },
   },
   defaultVariants: { variant: "info" },

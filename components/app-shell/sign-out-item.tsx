@@ -23,3 +23,19 @@ export function SignOutItem() {
     </DropdownMenuItem>
   );
 }
+
+/** Same action as a plain button, for the phone menu sheet. */
+export function SignOutButton({ className }: { className?: string }) {
+  const [pending, startTransition] = useTransition();
+  return (
+    <button
+      type="button"
+      disabled={pending}
+      onClick={() => startTransition(() => signOutAction())}
+      className={className}
+    >
+      <LogOut className="size-[22px]" strokeWidth={1.75} aria-hidden />
+      {pending ? "Signing out…" : "Sign out"}
+    </button>
+  );
+}

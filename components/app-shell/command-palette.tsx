@@ -22,7 +22,12 @@ function useShortcutLabel(): string {
  * Today it jumps between sections; guest / reservation / room results are added as those
  * modules land (Phases 4 and 6).
  */
-export function CommandPalette() {
+export function CommandPalette({
+  collapseOnPhone = false,
+}: {
+  /** Phone top bar is crowded (e.g. by the trial pill): show a round search button instead of the pill. */
+  collapseOnPhone?: boolean;
+}) {
   const router = useRouter();
   const shortcut = useShortcutLabel();
   const listId = useId();
@@ -75,24 +80,41 @@ export function CommandPalette() {
 
   return (
     <>
+      {collapseOnPhone ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label="Search"
+          className="flex size-11 shrink-0 items-center justify-center rounded-full border bg-background shadow-pill sm:hidden"
+        >
+          <Search className="size-[18px]" strokeWidth={2.25} aria-hidden />
+        </button>
+      ) : null}
       <button
         type="button"
         onClick={() => setOpen(true)}
         aria-keyshortcuts="Meta+K Control+K"
-        className="flex min-h-10 w-full max-w-md items-center gap-2 rounded-xl border bg-card px-3 text-sm text-muted-foreground transition-colors hover:border-input pointer-coarse:min-h-11"
+        className={cn(
+          "h-11 w-full max-w-md items-center gap-3 rounded-full border bg-background pr-2 pl-4 text-left text-[15px] font-medium text-foreground shadow-pill transition-shadow hover:shadow-float lg:h-12",
+          collapseOnPhone ? "hidden sm:flex" : "flex",
+        )}
       >
-        <Search className="size-4 shrink-0" aria-hidden />
-        <span className="flex-1 truncate text-left sm:hidden">Search</span>
-        <span className="hidden flex-1 truncate text-left sm:inline">
+        <Search className="size-[18px] shrink-0" strokeWidth={2.25} aria-hidden />
+        <span className="flex-1 truncate sm:hidden">Search</span>
+        <span className="hidden flex-1 truncate sm:inline">
           Search guests, reservations, rooms…
         </span>
-        <kbd className="hidden rounded-md bg-muted px-1.5 py-0.5 font-sans text-[11px] font-medium sm:inline">
+        <kbd className="hidden rounded-full bg-muted px-2.5 py-1 font-sans text-xs font-semibold text-muted-foreground sm:inline">
           {shortcut}
         </kbd>
       </button>
 
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent hideClose className="max-w-xl p-0" aria-describedby={undefined}>
+        <DialogContent
+          hideClose
+          className="max-w-xl overflow-hidden p-0"
+          aria-describedby={undefined}
+        >
           <DialogTitle className="sr-only">Search Lodgely</DialogTitle>
           <div className="flex items-center gap-2 border-b px-4">
             <Search className="size-4 text-muted-foreground" aria-hidden />
@@ -128,7 +150,7 @@ export function CommandPalette() {
                 }
               }}
               placeholder="Search guests, reservations, rooms…"
-              className="h-14 flex-1 bg-transparent text-base outline-none"
+              className="h-16 flex-1 bg-transparent text-base outline-none"
             />
           </div>
           <div className="p-2">
@@ -138,7 +160,10 @@ export function CommandPalette() {
               </p>
             ) : (
               <>
-                <p id={`${listId}-label`} className="px-3 pt-2 pb-1 text-sm font-semibold">
+                <p
+                  id={`${listId}-label`}
+                  className="px-3 pt-2 pb-2 text-sm font-semibold text-muted-foreground"
+                >
                   Go to
                 </p>
                 {/* Scrolls via arrow keys (scrollIntoView); tabIndex keeps the region keyboard-reachable. */}
@@ -148,7 +173,7 @@ export function CommandPalette() {
                   role="listbox"
                   tabIndex={-1}
                   aria-labelledby={`${listId}-label`}
-                  className="max-h-[min(22rem,55vh)] overflow-y-auto"
+                  className="max-h-[min(28rem,60vh)] overflow-y-auto"
                 >
                   {results.map((item, i) => {
                     const Icon = item.icon;
@@ -162,11 +187,11 @@ export function CommandPalette() {
                         onMouseMove={() => setCursor(i)}
                         onClick={() => go(i)}
                         className={cn(
-                          "flex min-h-11 cursor-pointer items-center gap-3 rounded-lg px-3 text-sm",
+                          "flex min-h-12 cursor-pointer items-center gap-3 rounded-lg px-3 text-[15px]",
                           active && "bg-accent",
                         )}
                       >
-                        <Icon className="size-4 text-muted-foreground" aria-hidden />
+                        <Icon className="size-5" strokeWidth={1.75} aria-hidden />
                         <span className="flex-1">{item.label}</span>
                         {active ? (
                           <CornerDownLeft className="size-3.5 text-muted-foreground" aria-hidden />
@@ -178,7 +203,7 @@ export function CommandPalette() {
               </>
             )}
           </div>
-          <p className="border-t px-4 py-2.5 text-xs text-muted-foreground">
+          <p className="border-t px-5 py-3 text-sm text-muted-foreground">
             Guest, reservation and room search arrive with those modules.
           </p>
           <p className="sr-only" role="status" aria-live="polite">

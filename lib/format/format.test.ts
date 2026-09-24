@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { greetingFor, isoDateIn, longDate } from "./greeting";
+import { formatIsoDate, greetingFor, isoDateIn, longDate } from "./greeting";
 import { firstNameFor, initialsFor } from "./names";
 
 describe("initialsFor", () => {
@@ -52,5 +52,16 @@ describe("isoDateIn", () => {
     // 23:30 UTC on the 24th is already the 25th in London (BST)
     expect(isoDateIn(new Date("2026-09-24T23:30:00Z"), "Europe/London")).toBe("2026-09-25");
     expect(isoDateIn(new Date("2026-09-24T23:30:00Z"), "America/Toronto")).toBe("2026-09-24");
+  });
+});
+
+describe("formatIsoDate", () => {
+  it("formats a date-only string without shifting the day", () => {
+    expect(formatIsoDate("2026-09-24")).toBe("24 September 2026");
+    expect(formatIsoDate("2026-01-01")).toBe("1 January 2026");
+  });
+
+  it("returns malformed input unchanged", () => {
+    expect(formatIsoDate("soon")).toBe("soon");
   });
 });

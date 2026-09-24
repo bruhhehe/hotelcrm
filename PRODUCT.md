@@ -104,8 +104,10 @@ Success means the owner:
   hotels. Built by hoteliers who'd rather greet guests than fight spreadsheets." The "built by
   hoteliers" claim rests on the founder being a small hotel owner.
 - **Spelling:** British English (the spec's own copy uses "colour" and "cancelled").
-- **Visual system:** pinned by spec §9. It is recorded in code (`app/globals.css`) and belongs in
-  DESIGN.md, not here.
+- **Visual direction (standing preference, set by the owner on 2026-09-24):** conventional
+  hospitality SaaS at the craft level of the Airbnb host app. It must not look AI-generated (the
+  earlier cream background, serif display and tracked-caps look was retired for that reason) and
+  must not read as generic startup SaaS. The details belong in DESIGN.md, not here.
 - **Structural reference:** Lodgely deliberately follows the structure of Animalo (animalo.com), a
   pet-boarding SaaS, re-targeted at hotels.
 - **Voice:** not formally defined. The existing copy is plain, practical and warm.

@@ -34,3 +34,15 @@ export function isoDateIn(now: Date, timeZone: string): string {
     timeZone,
   }).format(now);
 }
+
+/** A date-only ISO string ("2026-09-24") as "24 September 2026", with no timezone drift. */
+export function formatIsoDate(iso: string, locale = "en-GB"): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  if (!y || !m || !d) return iso;
+  return new Intl.DateTimeFormat(locale, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(Date.UTC(y, m - 1, d)));
+}

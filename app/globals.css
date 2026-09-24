@@ -1,63 +1,57 @@
 @import "tailwindcss";
 
 /*
- * Lodgely design tokens. shadcn-style semantic names, re-themed: warm cream canvas,
- * off-black ink, deep green primary, amber "action needed". No default shadcn greys.
+ * Lodgely design tokens: conventional hospitality SaaS at the craft level of the Airbnb host app.
+ * White surfaces, near-black ink, soft grey hierarchy, one green accent for primary actions and
+ * selection. One typeface (Figtree), bold sentence-case headings, no tracked caps.
  */
 :root {
-  --background: #faf8f3;
-  --foreground: #1c1b18;
+  --background: #ffffff;
+  --foreground: #222222;
 
   --card: #ffffff;
-  --card-foreground: #1c1b18;
+  --card-foreground: #222222;
   --popover: #ffffff;
-  --popover-foreground: #1c1b18;
+  --popover-foreground: #222222;
 
-  --primary: #1f7a3d;
-  --primary-hover: #19652f;
+  /* Accent: primary actions, selection, links in running text. 5.3:1 with white. */
+  --primary: #0b7a55;
+  --primary-hover: #086446;
   --primary-foreground: #ffffff;
-  --primary-soft: #e6f2e9;
+  --primary-soft: #e7f4ee;
 
-  --secondary: #f1ece0;
-  --secondary-foreground: #1c1b18;
+  /* Soft grey fill: hover rows, ghost controls, empty-state panels. */
+  --muted: #f7f7f7;
+  --muted-foreground: #6a6a6a;
+  --accent: #f7f7f7;
+  --accent-foreground: #222222;
 
-  --muted: #f3efe6;
-  --muted-foreground: #6b6558;
-
-  /* Cream highlight used for the active sidebar item and hover rows */
-  --accent: #f1ebdc;
-  --accent-foreground: #1c1b18;
-
-  --destructive: #b42318;
+  --destructive: #c13515;
   --destructive-foreground: #ffffff;
-  --destructive-soft: #fdecea;
+  --destructive-soft: #fff0ed;
 
-  --warning: #fdf0be;
-  --warning-foreground: #8a4b00;
-  --warning-border: #f3dc84;
+  --warning: #fef6e0;
+  --warning-foreground: #5c4200;
+  --warning-border: #f3d98b;
 
-  /* Decorative container edges (cards, dividers): no contrast requirement. */
-  --border: #e7e2d6;
-  /* Form-control boundaries: ≥3:1 against card and page (WCAG 1.4.11). */
-  --input: #8f8676;
-  /* Focus indicator: solid, ≥4.5:1 on every surface. */
-  --ring: #1f7a3d;
+  /* Dividers and resting card edges: decorative, no contrast requirement. */
+  --border: #ebebeb;
+  /* Form-control boundaries: ≥3:1 on white and on the grey fill (WCAG 1.4.11). */
+  --input: #8e8e8e;
+  /* Focus indicator: near-black, 15:1. */
+  --ring: #222222;
 
-  /* Modal scrim and resting card elevation */
-  --overlay: rgb(28 27 24 / 0.4);
-  --elevation-card: 0 1px 2px rgb(28 27 24 / 0.05), 0 1px 3px rgb(28 27 24 / 0.03);
+  --overlay: rgb(0 0 0 / 0.45);
+  /* Floating layers only (menus, dialogs, the search pill); resting cards use a hairline. */
+  --elevation-float: 0 6px 20px rgb(0 0 0 / 0.12), 0 1px 3px rgb(0 0 0 / 0.06);
+  --elevation-pill: 0 1px 2px rgb(0 0 0 / 0.08), 0 4px 12px rgb(0 0 0 / 0.05);
 
-  /* KPI left rules */
-  --kpi-green: #1f7a3d;
-  --kpi-indigo: #4f46e5;
-  --kpi-teal: #0f8b8d;
-  --kpi-orange: #e07a1f;
+  --sidebar: #ffffff;
+  --sidebar-width: 264px;
+  --topbar-height: 72px;
+  --tabbar-height: 64px;
 
-  --sidebar: #fdfcf8;
-  --sidebar-width: 300px;
-  --topbar-height: 64px;
-
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 }
 
 @theme inline {
@@ -71,8 +65,6 @@
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-soft: var(--primary-soft);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
@@ -87,16 +79,14 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-overlay: var(--overlay);
-  --shadow-card: var(--elevation-card);
   --color-sidebar: var(--sidebar);
-  --color-kpi-green: var(--kpi-green);
-  --color-kpi-indigo: var(--kpi-indigo);
-  --color-kpi-teal: var(--kpi-teal);
-  --color-kpi-orange: var(--kpi-orange);
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
 
+  --shadow-float: var(--elevation-float);
+  --shadow-pill: var(--elevation-pill);
+
+  /* 8px controls, 12px cards and menus, 16px sheets */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -105,6 +95,7 @@
 
   --spacing-sidebar: var(--sidebar-width);
   --spacing-topbar: var(--topbar-height);
+  --spacing-tabbar: var(--tabbar-height);
 }
 
 @layer base {
@@ -122,13 +113,12 @@
 
   body {
     @apply bg-background font-sans text-foreground antialiased;
-    font-feature-settings: "cv11", "ss01";
   }
 
   h1,
   h2,
   h3 {
-    @apply font-display tracking-tight;
+    @apply font-bold tracking-tight;
     text-wrap: balance;
   }
 
@@ -150,8 +140,4 @@
   a {
     text-underline-offset: 0.2em;
   }
-}
-
-@utility micro-label {
-  @apply text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase;
 }

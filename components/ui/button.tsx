@@ -4,25 +4,28 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center gap-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-lg text-[15px] font-semibold whitespace-nowrap transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-[18px]",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-sm hover:bg-primary-hover",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-accent",
-        outline: "border border-input bg-card hover:bg-accent",
-        ghost: "hover:bg-accent",
+        /** The one primary action on a view. */
+        default: "bg-primary text-primary-foreground hover:bg-primary-hover",
+        /** Strong secondary action (Airbnb's black button). */
+        dark: "bg-foreground text-background hover:bg-black",
+        outline: "border border-foreground bg-background hover:bg-muted",
+        ghost: "hover:bg-muted",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "px-0 text-foreground underline underline-offset-4 hover:text-black",
       },
       size: {
-        default: "min-h-10 px-4 py-2 pointer-coarse:min-h-11",
-        sm: "min-h-8 rounded-md px-3 py-1.5 text-xs pointer-coarse:min-h-11",
-        lg: "min-h-12 rounded-xl px-6 py-3 text-base",
-        icon: "size-10 pointer-coarse:size-11",
-        "icon-sm": "size-8 pointer-coarse:size-11",
+        default: "min-h-11 px-5 py-2.5",
+        sm: "min-h-9 px-3.5 py-1.5 text-sm pointer-coarse:min-h-11",
+        lg: "min-h-12 px-6 py-3 text-base",
+        icon: "size-10 rounded-full pointer-coarse:size-11",
+        "icon-sm": "size-8 rounded-full pointer-coarse:size-11",
       },
     },
+    compoundVariants: [{ variant: "link", className: "min-h-0 py-0" }],
     defaultVariants: { variant: "default", size: "default" },
   },
 );
