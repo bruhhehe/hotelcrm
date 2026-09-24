@@ -1,5 +1,5 @@
 import "server-only";
-import { env } from "@/lib/env/server";
+import { databaseUrl, env } from "@/lib/env/server";
 import { clientEnv } from "@/lib/env/client";
 
 /**
@@ -34,7 +34,7 @@ export const integrations: Record<IntegrationKey, Integration> = {
     label: "Database",
     description: "Postgres on Neon. Set DATABASE_URL.",
     settingsHref: "/settings",
-    isConfigured: () => env.DATABASE_URL !== undefined,
+    isConfigured: () => databaseUrl !== undefined,
   },
   auth: {
     key: "auth",

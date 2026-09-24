@@ -1,6 +1,7 @@
 import "server-only";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth, { type NextAuthConfig } from "next-auth";
+import { cookies } from "next/headers";
 import { cache } from "react";
 import Google from "next-auth/providers/google";
 import ResendProvider from "next-auth/providers/resend";
@@ -17,9 +18,17 @@ export function isAuthReady(): boolean {
   return isConfigured("database") && isConfigured("auth");
 }
 
-/** Magic link also needs a way to deliver the link: Resend, or the console in dev. */
+/** Sign-in links go to the server log instead of an inbox: in dev, or by explicit opt-in. */
+export function isLoggingSignInLinks(): boolean {
+  return (
+    !isConfigured("email") &&
+    (env.NODE_ENV !== "production" || env.AUTH_LOG_SIGN_IN_LINKS === "true")
+  );
+}
+
+/** Magic link also needs a way to deliver the link: Resend, or the log (see above). */
 export function isMagicLinkAvailable(): boolean {
-  return isAuthReady() && (isConfigured("email") || env.NODE_ENV !== "production");
+  return isAuthReady() && (isConfigured("email") || isLoggingSignInLinks());
 }
 
 export function isGoogleSignInAvailable(): boolean {
@@ -38,8 +47,8 @@ function buildConfig(): NextAuthConfig {
         maxAge: 24 * 60 * 60,
         async sendVerificationRequest({ identifier, url }) {
           const { host } = new URL(url);
-          if (!isConfigured("email")) {
-            // Dev only (isMagicLinkAvailable guarantees we're not in production here).
+          if (isLoggingSignInLinks()) {
+            // Dev, or production with AUTH_LOG_SIGN_IN_LINKS=true (isMagicLinkAvailable checked).
             console.info(`\n🔑  Magic link for ${identifier}:\n    ${url}\n`);
             return;
           }
@@ -101,8 +110,13 @@ export const { handlers, signIn, signOut } = nextAuth;
  * The current staff session, or null. Returns null without calling Auth.js when sign-in
  * isn't configured, so an unconfigured deploy doesn't log MissingSecret on every request.
  * Memoised per request: the layout and the page both ask, but the DB is hit once.
+ * Always request-dependent, so pages that call it are never prerendered.
  */
 export const getSession = cache(async () => {
+  // Touch the request first: if auth isn't configured at build time, returning null without
+  // reading the request would let Next.js prerender "signed out" (e.g. a static redirect to
+  // /login) and serve it forever, even after the variables are added at runtime.
+  await cookies();
   if (!isAuthReady()) return null;
   return nextAuth.auth();
 });

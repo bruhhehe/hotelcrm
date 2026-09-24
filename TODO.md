@@ -18,6 +18,8 @@ Deferred items, grouped by the phase expected to pick them up. Remove an item wh
 
 ## Needs a human (security)
 
+- [ ] If you set `AUTH_LOG_SIGN_IN_LINKS=true` on Vercel to get in, remove it once Resend (or Google sign-in) is configured.
+
 - [ ] **Rotate the Neon database password** (Neon console → Roles → reset). The connection string was pasted into a chat, so treat it as exposed. Then update Vercel's env vars and your local `.env.neon`.
 
 ## Phase 3

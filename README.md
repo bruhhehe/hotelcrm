@@ -62,12 +62,16 @@ Postgres connection. Behind an HTTP proxy, also set `NODE_USE_ENV_PROXY=1`.
 ## Deploying (Vercel)
 
 1. Import the GitHub repo in Vercel. Framework, install and build commands come from `vercel.json`.
-2. **Storage → Neon**: add the integration (it sets `DATABASE_URL` and `DATABASE_URL_UNPOOLED`
-   for production and each preview branch), or paste both from the Neon console. Functions run in
+2. **Storage → your Neon database → Connect Project**, with Production and Preview ticked. This
+   sets `DATABASE_URL` and `DATABASE_URL_UNPOOLED` (`POSTGRES_URL` also works). Functions run in
    `iad1`, next to a Neon database in `us-east-1`; change `vercel.json` if your database lives
    elsewhere.
 3. Set `AUTH_SECRET` (`npx auth secret`) and `NEXT_PUBLIC_APP_URL`.
-4. Deploy. `vercel-build` applies migrations and then builds. `/api/health` should return `{ ok: true }`.
+4. Set how sign-in links are delivered: `RESEND_API_KEY` + `EMAIL_FROM`, or Google sign-in. To get
+   in before email is ready, set `AUTH_LOG_SIGN_IN_LINKS=true` and copy the link from the
+   deployment's logs (Vercel → Logs, search "Magic link for"). Remove it once email works.
+5. **Redeploy.** Variables only reach deployments made after they're added. `vercel-build`
+   applies migrations and then builds; `/api/health` should return `{ ok: true }`, and `/login`
+   lists anything still missing.
 
-Everything else (Google, Resend, Stripe, Twilio, Blob, Places, Calendar, Cron) is optional.
-Until a key is set, its feature shows a "Connect X" state instead of failing.
+For local development against the same database: `vercel env pull .env.development.local`.

@@ -5,6 +5,9 @@ import { Topbar } from "@/components/app-shell/topbar";
 import { requireUser } from "@/lib/auth/session";
 import { getHotelContext } from "@/lib/hotels/current";
 
+/** Per-user and per-hotel on every request; never prerendered. */
+export const dynamic = "force-dynamic";
+
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await requireUser();
   const context = await getHotelContext(user.id);

@@ -33,10 +33,19 @@ export const serverEnvSchema = z
     DATABASE_URL: optional(postgresUrl),
     /** Direct (non-pooled) connection, used for migrations. Neon's integration sets it. */
     DATABASE_URL_UNPOOLED: optional(postgresUrl),
+    /** Also set by Vercel's Neon/Postgres integration; used when DATABASE_URL is absent. */
+    POSTGRES_URL: optional(postgresUrl),
+    POSTGRES_URL_NON_POOLING: optional(postgresUrl),
 
     AUTH_SECRET: optional(
       z.string().min(32, "must be at least 32 characters (run `npx auth secret`)"),
     ),
+    /**
+     * "true" writes staff sign-in links to the server logs when no email provider is configured,
+     * so an operator can sign in to a fresh deployment. Anyone who can read the logs can sign in
+     * as anyone: turn it off before real users arrive.
+     */
+    AUTH_LOG_SIGN_IN_LINKS: optional(z.enum(["true", "false"])),
     AUTH_GOOGLE_ID: optional(z.string()),
     AUTH_GOOGLE_SECRET: optional(z.string()),
 

@@ -1,13 +1,20 @@
-import { TriangleAlert } from "lucide-react";
+import { Info, TriangleAlert } from "lucide-react";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Banner } from "@/components/ui/banner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
-import { getSession, isGoogleSignInAvailable, isMagicLinkAvailable } from "@/lib/auth";
+import {
+  getSession,
+  isGoogleSignInAvailable,
+  isLoggingSignInLinks,
+  isMagicLinkAvailable,
+} from "@/lib/auth";
 import { signInWithGoogle } from "@/lib/auth/actions";
 import { safeCallbackUrl } from "@/lib/auth/callback-url";
 import { authErrorMessage } from "@/lib/auth/errors";
+import { signInSetupSteps } from "@/lib/auth/setup-status";
+import { env } from "@/lib/env/server";
 import { isConfigured } from "@/lib/integrations";
 import { MagicLinkForm } from "./login-form";
 
@@ -25,6 +32,19 @@ export default async function LoginPage({
   const magicLink = isMagicLinkAvailable();
   const google = isGoogleSignInAvailable();
   const errorMessage = authErrorMessage(error);
+  const production = env.NODE_ENV === "production";
+  const setupSteps =
+    magicLink || google
+      ? []
+      : signInSetupSteps({
+          database: isConfigured("database"),
+          authSecret: isConfigured("auth"),
+          email: isConfigured("email"),
+          google: isConfigured("googleAuth"),
+          logLinks: env.AUTH_LOG_SIGN_IN_LINKS === "true",
+          production,
+        });
+  const logLinksInProduction = production && magicLink && isLoggingSignInLinks();
 
   return (
     <Card className="overflow-hidden max-sm:rounded-none max-sm:border-0">
@@ -48,19 +68,27 @@ export default async function LoginPage({
           </Banner>
         ) : null}
 
-        {!magicLink && !google ? (
+        {setupSteps.length > 0 ? (
           <Banner variant="warning">
             <TriangleAlert className="mt-0.5 size-[18px] shrink-0" aria-hidden />
             <div>
               <p className="font-semibold">Sign-in isn&apos;t connected yet</p>
-              <p className="mt-1">
-                {!isConfigured("database")
-                  ? "Connect a database (DATABASE_URL) to enable sign-in. On Vercel: Storage → Neon."
-                  : !isConfigured("auth")
-                    ? "Set AUTH_SECRET (generate one with `npx auth secret`) to enable sign-in."
-                    : "Connect Resend (RESEND_API_KEY and EMAIL_FROM) or Google (AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET) to enable sign-in."}
-              </p>
+              <ol className="mt-2 list-decimal space-y-1.5 pl-5">
+                {setupSteps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
             </div>
+          </Banner>
+        ) : null}
+
+        {logLinksInProduction ? (
+          <Banner variant="info">
+            <Info className="mt-0.5 size-[18px] shrink-0" aria-hidden />
+            <p>
+              Sign-in links are written to the server logs, not emailed. Turn off
+              AUTH_LOG_SIGN_IN_LINKS once email is set up.
+            </p>
           </Banner>
         ) : null}
 

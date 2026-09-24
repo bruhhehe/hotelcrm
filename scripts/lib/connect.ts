@@ -5,7 +5,7 @@ import { Pool } from "pg";
 import * as schema from "@/lib/db/schema";
 import type { AnyDatabase } from "@/lib/db/tenant";
 
-config({ path: [".env.local", ".env"], quiet: true });
+config({ path: [".env.local", ".env.development.local", ".env"], quiet: true });
 
 export type Transport = "tcp" | "https";
 
@@ -21,10 +21,11 @@ export function transportFromArgs(argv = process.argv): Transport {
 
 /** Migrations prefer the direct (unpooled) URL, as Neon recommends for schema changes. */
 export function databaseUrl(kind: "app" | "migrations" = "app"): string | undefined {
+  const e = process.env;
   const url =
     kind === "migrations"
-      ? (process.env.DATABASE_URL_UNPOOLED ?? process.env.DATABASE_URL)
-      : process.env.DATABASE_URL;
+      ? (e.DATABASE_URL_UNPOOLED ?? e.POSTGRES_URL_NON_POOLING ?? e.DATABASE_URL ?? e.POSTGRES_URL)
+      : (e.DATABASE_URL ?? e.POSTGRES_URL);
   return url?.trim() || undefined;
 }
 

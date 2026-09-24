@@ -1,7 +1,7 @@
 import "server-only";
 import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { env } from "@/lib/env/server";
+import { databaseUrl } from "@/lib/env/server";
 import * as schema from "./schema";
 import { forHotel, type HotelDb } from "./tenant";
 
@@ -26,9 +26,9 @@ const globalForDb = globalThis as unknown as { lodgelyPool?: Pool; lodgelyDb?: D
 
 export function getDb(): Database {
   if (globalForDb.lodgelyDb) return globalForDb.lodgelyDb;
-  if (!env.DATABASE_URL) throw new DatabaseNotConfiguredError();
+  if (!databaseUrl) throw new DatabaseNotConfiguredError();
 
-  const pool = globalForDb.lodgelyPool ?? new Pool({ connectionString: env.DATABASE_URL, max: 5 });
+  const pool = globalForDb.lodgelyPool ?? new Pool({ connectionString: databaseUrl, max: 5 });
   globalForDb.lodgelyPool = pool;
   globalForDb.lodgelyDb = drizzle(pool, { schema });
   return globalForDb.lodgelyDb;

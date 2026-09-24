@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { isLoggingSignInLinks } from "@/lib/auth";
+import { env } from "@/lib/env/server";
 
 export const metadata: Metadata = { title: "Check your email" };
 
+/** Copy depends on runtime configuration (emailed vs logged links). */
+export const dynamic = "force-dynamic";
+
 export default function CheckEmailPage() {
+  const inLogs = env.NODE_ENV === "production" && isLoggingSignInLinks();
   return (
     <Card className="overflow-hidden max-sm:rounded-none max-sm:border-0">
       <div className="flex h-16 items-center justify-center border-b px-6 max-sm:sr-only">
@@ -15,8 +21,9 @@ export default function CheckEmailPage() {
       <CardContent className="px-6 py-8 sm:px-8">
         <h2 className="text-[22px] font-semibold">Your sign-in link is on its way</h2>
         <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-          Open the email from Lodgely and select the link to sign in. It expires in 24 hours and can
-          only be used once.
+          {inLogs
+            ? "This deployment writes sign-in links to its server logs instead of emailing them. Open the latest log entry starting with “Magic link for” and follow the link. It expires in 24 hours and can only be used once."
+            : "Open the email from Lodgely and select the link to sign in. It expires in 24 hours and can only be used once."}
         </p>
         <Link
           href="/login"
