@@ -3,17 +3,18 @@ import { SkipLink } from "@/components/app-shell/skip-link";
 import { TabBar } from "@/components/app-shell/tab-bar";
 import { Topbar } from "@/components/app-shell/topbar";
 import { requireUser } from "@/lib/auth/session";
+import { getHotelContext } from "@/lib/hotels/current";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await requireUser();
+  const context = await getHotelContext(user.id);
 
   return (
     <div className="min-h-dvh">
       <SkipLink />
-      <Sidebar />
+      <Sidebar hotelName={context?.hotel.name ?? null} />
       <div className="lg:pl-sidebar">
-        {/* trialEndsAt comes from the active hotel once tenancy lands (Phase 2). */}
-        <Topbar user={user} trialEndsAt={null} />
+        <Topbar user={user} trialEndsAt={context?.hotel.trialEndsAt ?? null} />
         <main
           id="main"
           tabIndex={-1}
@@ -22,7 +23,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           {children}
         </main>
       </div>
-      <TabBar user={user} />
+      <TabBar user={user} hotelName={context?.hotel.name ?? null} />
     </div>
   );
 }

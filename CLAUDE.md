@@ -5,7 +5,8 @@
 - **Package manager:** pnpm. Node 22 (`.nvmrc`).
 - **Before every commit:** `pnpm check` (typecheck, lint, Prettier, Vitest, drizzle check). Run `pnpm build` too when routes or config change.
 - **Schema changes:** edit `lib/db/schema/*`, then `pnpm db:generate --name <what>` and commit the SQL. CI fails on drift.
-- **DB access:** `getDb()` from `@/lib/db`, never at module top level. Tenant queries go through `db.forHotel(hotelId)` (Phase 2+).
+- **DB access:** tenant data only through `db.forHotel(hotelId)` (`@/lib/db`): it scopes reads, stamps `hotel_id` on inserts and hides soft-deleted rows. ESLint blocks `getDb` outside `lib/db`, `lib/auth` and `lib/hotels`. Use `withHotelTransaction` for multi-row writes, and `nextCounter` for references and invoice numbers. Never call `getDb()` at module top level.
+- **Database tests:** name them `*.db.test.ts`; they run only against `TEST_DATABASE_URL` (never `DATABASE_URL`) and create their own throwaway hotel.
 - **Env:** add new keys to `lib/env/schema.ts` **and** `.env.example`. A test checks they stay in sync. Integration keys are optional; gate features with `isConfigured()` from `@/lib/integrations`.
 - **Auth:** `requireUser()` in `(app)` server code. Staff and guest auth never share tables or cookies.
 - **UI:** primitives in `components/ui`, shell in `components/app-shell`. Use tokens (`bg-primary`, `bg-muted`, `text-muted-foreground`, `border-input`, `shadow-float`), never raw hex in components. Figtree only; sentence case; no tracked-caps labels.

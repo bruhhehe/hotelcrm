@@ -17,7 +17,8 @@
     "db:check": "drizzle-kit check",
     "db:studio": "drizzle-kit studio",
     "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm db:check",
-    "vercel-build": "pnpm db:migrate && next build"
+    "vercel-build": "pnpm db:migrate && next build",
+    "db:seed": "tsx scripts/seed/index.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.3",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@neondatabase/serverless": "^1.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^22.20.4",
     "@types/pg": "^8.23.1",

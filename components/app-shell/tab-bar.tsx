@@ -18,7 +18,7 @@ const tabClass =
  * Phone navigation, the hosting-app pattern: four sections as tabs, everything else under Menu.
  * Menu opens a bottom sheet with every section in sidebar order plus account actions.
  */
-export function TabBar({ user }: { user: StaffUser }) {
+export function TabBar({ user, hotelName }: { user: StaffUser; hotelName: string | null }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const inMenu = !TAB_BAR_ITEMS.some((item) => isActivePath(pathname, item.href));
@@ -61,7 +61,9 @@ export function TabBar({ user }: { user: StaffUser }) {
                   <SheetTitle className="truncate text-base font-semibold">
                     {user.name ?? "Your account"}
                   </SheetTitle>
-                  <p className="truncate text-sm text-muted-foreground">{user.email}</p>
+                  <p className="truncate text-sm text-muted-foreground">
+                    {hotelName ? `${hotelName} · ${user.email}` : user.email}
+                  </p>
                 </div>
               </div>
               <ul className="px-3 py-3">

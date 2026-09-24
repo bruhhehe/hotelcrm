@@ -3,6 +3,7 @@ import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { env } from "@/lib/env/server";
 import * as schema from "./schema";
+import { forHotel, type HotelDb } from "./tenant";
 
 export type Database = NodePgDatabase<typeof schema>;
 
@@ -34,3 +35,18 @@ export function getDb(): Database {
 }
 
 export { schema };
+
+/**
+ * The spec's entry point for tenant data: `db.forHotel(hotelId).select(schema.guests)`.
+ * App code uses this (never `getDb()` directly) so every query is scoped to one hotel.
+ */
+export const db = {
+  forHotel: (hotelId: string) => forHotel(getDb(), hotelId),
+};
+
+/** Run `fn` in one transaction with a hotel-scoped handle (locks, counters, multi-row writes). */
+export function withHotelTransaction<T>(hotelId: string, fn: (tx: HotelDb) => Promise<T>) {
+  return getDb().transaction((tx) => fn(forHotel(tx, hotelId)));
+}
+
+export { forHotel, type HotelDb };

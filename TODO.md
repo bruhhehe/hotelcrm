@@ -4,7 +4,7 @@ Deferred items, grouped by the phase expected to pick them up. Remove an item wh
 
 ## Needs a human
 
-- [ ] Create the Vercel project from this repo, add the **Neon** integration (Storage → Neon, region `aws-eu-west-2`), set `AUTH_SECRET`, then deploy. See README → Deploying.
+- [ ] Create the Vercel project from this repo and set `DATABASE_URL`, `DATABASE_URL_UNPOOLED` (or add the Neon integration, which sets both), `AUTH_SECRET` and `NEXT_PUBLIC_APP_URL`, then deploy. The Neon database is already migrated and seeded. See README → Deploying.
 - [ ] Add a Google OAuth client (staff sign-in) and a Resend domain before inviting real users.
 - [ ] Add a branch protection rule on `main` that requires the `CI` workflow.
 - [ ] Decide whether OTA channel import (Booking.com, Airbnb, Expedia; spec Phase 16) moves earlier. It is the core positioning promise in PRODUCT.md.
@@ -16,12 +16,14 @@ Deferred items, grouped by the phase expected to pick them up. Remove an item wh
 - [ ] Plain black (`hover:bg-black`, `hover:text-black`) on the dark and link buttons' hover isn't a token; add an `ink-strong` token or drop the shift.
 - [ ] Magic-link email hard-codes palette hex (email clients can't read CSS variables). Source it from a shared constants module when templates move to React Email (Phase 10).
 
-## Phase 2 — Schema + seed
+## Needs a human (security)
 
-- [ ] Full domain schema (§3) and `db.forHotel(hotelId)` guard.
-- [ ] Wire the hotel into the shell: pass `trialEndsAt` to `<Topbar>` (the pill is built, `lib/billing/trial.ts`) and read the timezone from the hotel instead of `DEFAULT_TIMEZONE` on the dashboard.
-- [ ] Replace the dashboard greeting's "your hotel" with the hotel name.
-- [ ] Seed prints Robert's magic link (the dev console transport already exists).
+- [ ] **Rotate the Neon database password** (Neon console → Roles → reset). The connection string was pasted into a chat, so treat it as exposed. Then update Vercel's env vars and your local `.env.neon`.
+
+## Phase 3
+
+- [ ] Price quotes (`quote()`) must replace the seed's simplified seasonal pricing in `scripts/seed/generate.ts` (`nightPrice`), so seeded prices and engine prices agree.
+- [ ] Reservation creation must lock the room type's date range (spec §6.1); the exclusion constraint only guards assigned rooms.
 
 ## Phase 4 / 6
 

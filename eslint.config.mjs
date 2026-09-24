@@ -20,6 +20,26 @@ const eslintConfig = [
     },
   },
   {
+    // Tenant isolation: app code reaches tenant data only through `db.forHotel(hotelId)`.
+    // The raw handle is for the data layer itself, auth, hotel resolution and scripts.
+    files: ["app/**", "components/**", "lib/**"],
+    ignores: ["lib/db/**", "lib/auth/**", "lib/hotels/**"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "@/lib/db",
+              importNames: ["getDb"],
+              message: "Use db.forHotel(hotelId) so the query is scoped to one hotel.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     ignores: [
       ".claude/**",
       "node_modules/**",

@@ -17,6 +17,7 @@ via Drizzle · Auth.js v5 · Stripe · Resend · Twilio · Vercel Blob · Vitest
 pnpm install
 cp .env.example .env.local          # fill in DATABASE_URL and AUTH_SECRET at minimum
 pnpm db:migrate
+pnpm db:seed        # The Fell View Hotel demo; prints a sign-in link for robert@fellview.demo
 pnpm dev
 ```
 
@@ -35,7 +36,18 @@ Neon branch.
 | `pnpm test`        | Vitest unit tests                                                                 |
 | `pnpm db:generate` | Generate a migration from schema changes (`lib/db/schema`)                        |
 | `pnpm db:migrate`  | Apply migrations (skips if `DATABASE_URL` is unset)                               |
+| `pnpm db:seed`     | Recreate the demo hotel (only touches `fell-view` and `@fellview.demo` users)     |
 | `pnpm db:studio`   | Drizzle Studio                                                                    |
+
+### Database tests
+
+Tests named `*.db.test.ts` run against `TEST_DATABASE_URL` only (a migrated Postgres you don't
+mind writing to), never `DATABASE_URL`. They are skipped when it isn't set.
+
+### Reaching Neon without port 5432
+
+`pnpm db:migrate --https` and `pnpm db:seed --https` use Neon's HTTPS endpoint instead of a
+Postgres connection. Behind an HTTP proxy, also set `NODE_USE_ENV_PROXY=1`.
 
 ## Route groups
 
@@ -50,8 +62,10 @@ Neon branch.
 ## Deploying (Vercel)
 
 1. Import the GitHub repo in Vercel. Framework, install and build commands come from `vercel.json`.
-2. **Storage → Neon**: add the integration. It sets `DATABASE_URL` for production and for each
-   preview branch.
+2. **Storage → Neon**: add the integration (it sets `DATABASE_URL` and `DATABASE_URL_UNPOOLED`
+   for production and each preview branch), or paste both from the Neon console. Functions run in
+   `iad1`, next to a Neon database in `us-east-1`; change `vercel.json` if your database lives
+   elsewhere.
 3. Set `AUTH_SECRET` (`npx auth secret`) and `NEXT_PUBLIC_APP_URL`.
 4. Deploy. `vercel-build` applies migrations and then builds. `/api/health` should return `{ ok: true }`.
 

@@ -31,6 +31,8 @@ export const serverEnvSchema = z
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
 
     DATABASE_URL: optional(postgresUrl),
+    /** Direct (non-pooled) connection, used for migrations. Neon's integration sets it. */
+    DATABASE_URL_UNPOOLED: optional(postgresUrl),
 
     AUTH_SECRET: optional(
       z.string().min(32, "must be at least 32 characters (run `npx auth secret`)"),

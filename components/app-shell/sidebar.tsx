@@ -39,12 +39,17 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 /** Desktop only; phones get the tab bar. */
-export function Sidebar() {
+export function Sidebar({ hotelName }: { hotelName: string | null }) {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-sidebar flex-col border-r bg-sidebar lg:flex">
       <div className="flex h-topbar shrink-0 items-center px-6">
         <Logo href="/dashboard" />
       </div>
+      {hotelName ? (
+        <p className="truncate px-6 pt-1 text-sm font-semibold" title={hotelName}>
+          {hotelName}
+        </p>
+      ) : null}
       <div className="flex-1 overflow-y-auto px-3 pt-4">
         <SidebarNav />
       </div>

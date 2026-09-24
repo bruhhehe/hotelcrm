@@ -4,29 +4,47 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { requireUser } from "@/lib/auth/session";
 import { greetingFor, isoDateIn, longDate } from "@/lib/format/greeting";
 import { firstNameFor } from "@/lib/format/names";
+import { getHotelContext } from "@/lib/hotels/current";
 
 export const metadata: Metadata = { title: "Dashboard" };
 
-// Until hotels exist (Phase 2) there is no hotel timezone to read; London is the demo default.
-const DEFAULT_TIMEZONE = "Europe/London";
+/** Used only when the user belongs to no hotel yet, so there's no hotel timezone to read. */
+const FALLBACK_TIMEZONE = "Europe/London";
 
 export default async function DashboardPage() {
   const user = await requireUser();
+  const context = await getHotelContext(user.id);
+  const timeZone = context?.hotel.timezone ?? FALLBACK_TIMEZONE;
   const now = new Date();
 
   return (
     <>
       <PageHeader
         size="hero"
-        title={`${greetingFor(now, DEFAULT_TIMEZONE)}, ${firstNameFor(user.name, user.email)}.`}
+        title={`${greetingFor(now, timeZone)}, ${firstNameFor(user.name, user.email)}.`}
         description={
-          <time dateTime={isoDateIn(now, DEFAULT_TIMEZONE)}>{longDate(now, DEFAULT_TIMEZONE)}</time>
+          <>
+            <time dateTime={isoDateIn(now, timeZone)}>{longDate(now, timeZone)}</time>
+            {context ? (
+              <>
+                <br />
+                Here&apos;s what&apos;s happening at {context.hotel.name} today.
+              </>
+            ) : null}
+          </>
         }
       />
-      <EmptyState
-        title="Nothing to show for today yet"
-        description="Once your hotel's rooms, rates and reservations are in Lodgely, today's arrivals, departures, occupancy and revenue appear here."
-      />
+      {context ? (
+        <EmptyState
+          title="Not available yet"
+          description="Today's arrivals, departures, occupancy and revenue will appear here."
+        />
+      ) : (
+        <EmptyState
+          title="You're not part of a hotel yet"
+          description="Ask your hotel's owner to invite you to Lodgely. Once you accept, your hotel appears here."
+        />
+      )}
     </>
   );
 }

@@ -9,6 +9,15 @@ export type ChangelogEntry = {
 export const CHANGELOG: readonly ChangelogEntry[] = [
   {
     date: "2026-09-24",
+    tag: "New",
+    title: "Your hotel in Lodgely",
+    items: [
+      "The app now knows which hotel you work in: its name, timezone and trial days left show up where you work.",
+      "Rooms, rates, guests, reservations, payments and housekeeping are stored safely per hotel, and a room can never be booked twice for the same night.",
+    ],
+  },
+  {
+    date: "2026-09-24",
     tag: "Improved",
     title: "Easier to use with a keyboard, screen reader or phone",
     items: [

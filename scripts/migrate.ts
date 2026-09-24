@@ -2,27 +2,31 @@
  * Applies pending Drizzle migrations. Runs before `next build` on Vercel (see `vercel-build`).
  * With the Neon ↔ Vercel integration each preview deploy gets its own DB branch, so this
  * migrates the preview branch, never production, until merged.
- * Skips cleanly when DATABASE_URL isn't set so a first "hello" deploy still builds.
+ * Skips cleanly when no database URL is set so a first "hello" deploy still builds.
+ *
+ *   pnpm db:migrate            # Postgres TCP (DATABASE_URL_UNPOOLED, else DATABASE_URL)
+ *   pnpm db:migrate --https    # Neon over HTTPS, where port 5432 is blocked
  */
-import { config } from "dotenv";
+import { migrate as migrateNeonHttp } from "drizzle-orm/neon-http/migrator";
+import { migrate as migratePg } from "drizzle-orm/node-postgres/migrator";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { migrate } from "drizzle-orm/node-postgres/migrator";
-import { Pool } from "pg";
-
-config({ path: [".env.local", ".env"], quiet: true });
+import { connect, databaseUrl, redact, transportFromArgs } from "./lib/connect";
 
 async function main() {
-  const url = process.env.DATABASE_URL;
+  const url = databaseUrl("migrations");
   if (!url) {
     console.warn("[migrate] DATABASE_URL not set, skipping migrations.");
     return;
   }
-  const pool = new Pool({ connectionString: url, max: 1 });
+  const transport = transportFromArgs();
+  console.info(`[migrate] ${redact(url)} over ${transport === "https" ? "HTTPS" : "TCP"}`);
+  const conn = await connect(url, transport);
   try {
-    await migrate(drizzle(pool), { migrationsFolder: "./drizzle" });
+    if (conn.neonHttp) await migrateNeonHttp(conn.neonHttp, { migrationsFolder: "./drizzle" });
+    else if (conn.pgPool) await migratePg(drizzle(conn.pgPool), { migrationsFolder: "./drizzle" });
     console.info("[migrate] Migrations applied.");
   } finally {
-    await pool.end();
+    await conn.close();
   }
 }
 
