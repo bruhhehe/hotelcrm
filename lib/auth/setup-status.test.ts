@@ -36,4 +36,24 @@ describe("signInSetupSteps", () => {
   it("doesn't ask for email in development (links print to the console)", () => {
     expect(signInSetupSteps({ ...ready, email: false, production: false })).toEqual([]);
   });
+
+  it("names the Vercel environment that's missing the database", () => {
+    const [first, second] = signInSetupSteps({
+      ...ready,
+      database: false,
+      authSecret: false,
+      deployment: { environment: "preview", branch: "feature", commit: "abc1234" },
+    });
+    expect(first).toMatch(/DATABASE_URL for the Preview environment/);
+    expect(second).toMatch(/AUTH_SECRET for the Preview environment/);
+  });
+
+  it("explains a database connected under a custom prefix", () => {
+    const [first] = signInSetupSteps({
+      ...ready,
+      database: false,
+      strayDatabaseVariables: ["STORAGE_DATABASE_URL"],
+    });
+    expect(first).toMatch(/Found STORAGE_DATABASE_URL but no DATABASE_URL/);
+  });
 });

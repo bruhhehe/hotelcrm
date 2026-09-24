@@ -14,6 +14,7 @@ import { signInWithGoogle } from "@/lib/auth/actions";
 import { safeCallbackUrl } from "@/lib/auth/callback-url";
 import { authErrorMessage } from "@/lib/auth/errors";
 import { signInSetupSteps } from "@/lib/auth/setup-status";
+import { deploymentFrom, describeDeployment, strayDatabaseVariables } from "@/lib/env/deployment";
 import { env } from "@/lib/env/server";
 import { isConfigured } from "@/lib/integrations";
 import { MagicLinkForm } from "./login-form";
@@ -33,6 +34,7 @@ export default async function LoginPage({
   const google = isGoogleSignInAvailable();
   const errorMessage = authErrorMessage(error);
   const production = env.NODE_ENV === "production";
+  const deployment = deploymentFrom(process.env);
   const setupSteps =
     magicLink || google
       ? []
@@ -43,6 +45,8 @@ export default async function LoginPage({
           google: isConfigured("googleAuth"),
           logLinks: env.AUTH_LOG_SIGN_IN_LINKS === "true",
           production,
+          deployment,
+          strayDatabaseVariables: strayDatabaseVariables(process.env),
         });
   const logLinksInProduction = production && magicLink && isLoggingSignInLinks();
 
@@ -78,6 +82,7 @@ export default async function LoginPage({
                   <li key={step}>{step}</li>
                 ))}
               </ol>
+              {deployment ? <p className="mt-3 text-sm">{describeDeployment(deployment)}</p> : null}
             </div>
           </Banner>
         ) : null}
