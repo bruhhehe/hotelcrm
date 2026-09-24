@@ -7,10 +7,12 @@ Deferred items, grouped by the phase expected to pick them up. Remove an item wh
 - [ ] Create the Vercel project from this repo, add the **Neon** integration (Storage → Neon, region `aws-eu-west-2`), set `AUTH_SECRET`, then deploy. See README → Deploying.
 - [ ] Add a Google OAuth client (staff sign-in) and a Resend domain before inviting real users.
 - [ ] Add a branch protection rule on `main` that requires the `CI` workflow.
+- [ ] Decide whether OTA channel import (Booking.com, Airbnb, Expedia; spec Phase 16) moves earlier. It is the core positioning promise in PRODUCT.md.
+- [ ] Confirm the accessibility standard (WCAG 2.2 AA is the working bar, not yet confirmed).
 
 ## Design system
 
-- [ ] Run `/impeccable init` (PRODUCT.md) and `/impeccable document` (DESIGN.md) so later design commands extend the system instead of inferring it from code.
+- [ ] Run `/impeccable document` (DESIGN.md) so later design commands extend the recorded system instead of inferring it from code. PRODUCT.md is done.
 - [ ] Type scale as tokens: `text-[11px]` (micro-label) and `text-[15px]` (sidebar) are one-off sizes today.
 - [ ] Magic-link email hard-codes palette hex (email clients can't read CSS variables). Source it from a shared constants module when templates move to React Email (Phase 10).
 
