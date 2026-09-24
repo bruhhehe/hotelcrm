@@ -1,0 +1,69 @@
+"use client";
+
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { XIcon } from "lucide-react";
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+export const Dialog = DialogPrimitive.Root;
+export const DialogTrigger = DialogPrimitive.Trigger;
+export const DialogClose = DialogPrimitive.Close;
+
+export function DialogOverlay({
+  className,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
+  return (
+    <DialogPrimitive.Overlay
+      className={cn("fixed inset-0 z-50 bg-[#1c1b18]/40 backdrop-blur-[2px]", className)}
+      {...props}
+    />
+  );
+}
+
+export function DialogContent({
+  className,
+  children,
+  hideClose = false,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Content> & { hideClose?: boolean }) {
+  return (
+    <DialogPrimitive.Portal>
+      <DialogOverlay />
+      <DialogPrimitive.Content
+        className={cn(
+          "fixed top-[15%] left-1/2 z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 rounded-2xl border bg-card p-6 shadow-xl outline-none",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+        {hideClose ? null : (
+          <DialogPrimitive.Close className="absolute top-4 right-4 rounded-md p-1 text-muted-foreground hover:bg-accent">
+            <XIcon className="size-4" />
+            <span className="sr-only">Close</span>
+          </DialogPrimitive.Close>
+        )}
+      </DialogPrimitive.Content>
+    </DialogPrimitive.Portal>
+  );
+}
+
+export function DialogTitle({
+  className,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Title>) {
+  return <DialogPrimitive.Title className={cn("text-lg font-semibold", className)} {...props} />;
+}
+
+export function DialogDescription({
+  className,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Description>) {
+  return (
+    <DialogPrimitive.Description
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    />
+  );
+}

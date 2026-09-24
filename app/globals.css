@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+/*
+ * Lodgely design tokens. shadcn-style semantic names, re-themed: warm cream canvas,
+ * off-black ink, deep green primary, amber "action needed". No default shadcn greys.
+ */
+:root {
+  --background: #faf8f3;
+  --foreground: #1c1b18;
+
+  --card: #ffffff;
+  --card-foreground: #1c1b18;
+  --popover: #ffffff;
+  --popover-foreground: #1c1b18;
+
+  --primary: #1f7a3d;
+  --primary-hover: #19652f;
+  --primary-foreground: #ffffff;
+  --primary-soft: #e6f2e9;
+
+  --secondary: #f1ece0;
+  --secondary-foreground: #1c1b18;
+
+  --muted: #f3efe6;
+  --muted-foreground: #6b6558;
+
+  /* Cream highlight used for the active sidebar item and hover rows */
+  --accent: #f1ebdc;
+  --accent-foreground: #1c1b18;
+
+  --destructive: #b42318;
+  --destructive-foreground: #ffffff;
+  --destructive-soft: #fdecea;
+
+  --warning: #fdf0be;
+  --warning-foreground: #8a4b00;
+  --warning-border: #f3dc84;
+
+  --border: #e7e2d6;
+  --input: #ddd6c7;
+  --ring: #1f7a3d;
+
+  /* KPI left rules */
+  --kpi-green: #1f7a3d;
+  --kpi-indigo: #4f46e5;
+  --kpi-teal: #0f8b8d;
+  --kpi-orange: #e07a1f;
+
+  --sidebar: #fdfcf8;
+  --sidebar-width: 300px;
+  --topbar-height: 64px;
+
+  --radius: 0.75rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-border: var(--warning-border);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-kpi-green: var(--kpi-green);
+  --color-kpi-indigo: var(--kpi-indigo);
+  --color-kpi-teal: var(--kpi-teal);
+  --color-kpi-orange: var(--kpi-orange);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --spacing-sidebar: var(--sidebar-width);
+  --spacing-topbar: var(--topbar-height);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@utility micro-label {
+  @apply text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase;
+}
