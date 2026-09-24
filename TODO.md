@@ -12,8 +12,8 @@ Deferred items, grouped by the phase expected to pick them up. Remove an item wh
 
 ## Design system
 
-- [ ] Run `/impeccable document` (DESIGN.md) so later design commands extend the recorded system instead of inferring it from code. PRODUCT.md is done.
-- [ ] Type scale as tokens: `text-[11px]` (micro-label) and `text-[15px]` (sidebar) are one-off sizes today.
+- [ ] Type scale as tokens: sizes are applied consistently but as literals (`text-[15px]`, `text-[13px]`, `text-[22px]`, 28–44px headings). Promote them to `--text-*` tokens so DESIGN.md's hierarchy is enforced by the theme.
+- [ ] Plain black (`hover:bg-black`, `hover:text-black`) on the dark and link buttons' hover isn't a token; add an `ink-strong` token or drop the shift.
 - [ ] Magic-link email hard-codes palette hex (email clients can't read CSS variables). Source it from a shared constants module when templates move to React Email (Phase 10).
 
 ## Phase 2 — Schema + seed

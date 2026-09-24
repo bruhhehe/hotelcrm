@@ -1,0 +1,503 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-24T00:00:00Z",
+  "title": "Design System: Lodgely",
+  "extensions": {
+    "colorMeta": {
+      "lodgely-green": {
+        "role": "primary",
+        "displayName": "Lodgely Green",
+        "canonical": "oklch(51.4% 0.108 163.1)",
+        "tonalRamp": [
+          "#001600",
+          "#003213",
+          "#00502e",
+          "#00704c",
+          "#30916b",
+          "#56b38b",
+          "#81deb3",
+          "#c9f5df"
+        ]
+      },
+      "lodgely-green-deep": {
+        "role": "primary",
+        "displayName": "Lodgely Green Deep",
+        "canonical": "oklch(44.7% 0.093 163.8)",
+        "tonalRamp": [
+          "#001600",
+          "#003213",
+          "#00502e",
+          "#00704c",
+          "#30916b",
+          "#56b38b",
+          "#81deb3",
+          "#c9f5df"
+        ]
+      },
+      "lodgely-green-wash": {
+        "role": "primary",
+        "displayName": "Green Wash",
+        "canonical": "oklch(95.6% 0.016 166.7)",
+        "tonalRamp": [
+          "#001600",
+          "#003213",
+          "#00502e",
+          "#00704c",
+          "#30916b",
+          "#56b38b",
+          "#81deb3",
+          "#c9f5df"
+        ]
+      },
+      "on-primary": {
+        "role": "neutral",
+        "displayName": "On Primary White",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c7c7c7",
+          "#eeeeee"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c7c7c7",
+          "#eeeeee"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(25.2% 0 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c7c7c7",
+          "#eeeeee"
+        ]
+      },
+      "ink-secondary": {
+        "role": "neutral",
+        "displayName": "Secondary Grey",
+        "canonical": "oklch(52.4% 0 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c7c7c7",
+          "#eeeeee"
+        ]
+      },
+      "soft-fill": {
+        "role": "neutral",
+        "displayName": "Soft Fill",
+        "canonical": "oklch(97.6% 0 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c7c7c7",
+          "#eeeeee"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(94.0% 0 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c7c7c7",
+          "#eeeeee"
+        ]
+      },
+      "control-edge": {
+        "role": "neutral",
+        "displayName": "Control Edge",
+        "canonical": "oklch(64.7% 0 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c7c7c7",
+          "#eeeeee"
+        ]
+      },
+      "focus-ink": {
+        "role": "neutral",
+        "displayName": "Focus Ink",
+        "canonical": "oklch(25.2% 0 0)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c7c7c7",
+          "#eeeeee"
+        ]
+      },
+      "alert-red": {
+        "role": "status",
+        "displayName": "Alert Red",
+        "canonical": "oklch(53.9% 0.182 33.7)",
+        "tonalRamp": [
+          "#3b0000",
+          "#610000",
+          "#860000",
+          "#ac1d00",
+          "#d34729",
+          "#fa6b4c",
+          "#ff9675",
+          "#ffd1b9"
+        ]
+      },
+      "alert-red-wash": {
+        "role": "status",
+        "displayName": "Alert Red Wash",
+        "canonical": "oklch(96.6% 0.017 31.1)",
+        "tonalRamp": [
+          "#3b0000",
+          "#610000",
+          "#860000",
+          "#ac1d00",
+          "#d34729",
+          "#fa6b4c",
+          "#ff9675",
+          "#ffd1b9"
+        ]
+      },
+      "notice-cream": {
+        "role": "status",
+        "displayName": "Notice Cream",
+        "canonical": "oklch(97.4% 0.030 90.3)",
+        "tonalRamp": [
+          "#1b0400",
+          "#371e00",
+          "#543b00",
+          "#745920",
+          "#957941",
+          "#b79a62",
+          "#e1c38a",
+          "#fdf1cc"
+        ]
+      },
+      "notice-brown": {
+        "role": "status",
+        "displayName": "Notice Brown",
+        "canonical": "oklch(39.7% 0.082 83.1)",
+        "tonalRamp": [
+          "#1b0400",
+          "#371e00",
+          "#543b00",
+          "#745920",
+          "#957941",
+          "#b79a62",
+          "#e1c38a",
+          "#fdf1cc"
+        ]
+      },
+      "notice-border": {
+        "role": "status",
+        "displayName": "Notice Border",
+        "canonical": "oklch(89.0% 0.102 91.7)",
+        "tonalRamp": [
+          "#1b0400",
+          "#371e00",
+          "#543b00",
+          "#745920",
+          "#957941",
+          "#b79a62",
+          "#e1c38a",
+          "#fdf1cc"
+        ]
+      },
+      "overlay": {
+        "role": "neutral",
+        "displayName": "Scrim",
+        "canonical": "rgb(0 0 0 / 0.45)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c7c7c7",
+          "#eeeeee"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Marketing hero headline only."
+      },
+      "hero": {
+        "displayName": "Hero",
+        "purpose": "Dashboard greeting only (PageHeader size=hero)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page titles and the 404 heading."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Empty-state and auth card headings."
+      },
+      "title-sm": {
+        "displayName": "Title Small",
+        "purpose": "Card and dialog titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running UI text, descriptions, menu items, banners."
+      },
+      "body-lg": {
+        "displayName": "Body Large",
+        "purpose": "Page-header descriptions, marketing lede, input text (16px)."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons and form labels."
+      },
+      "label-sm": {
+        "displayName": "Label Small",
+        "purpose": "Badges and avatar initials."
+      },
+      "tab-label": {
+        "displayName": "Tab Label",
+        "purpose": "Phone tab bar captions."
+      }
+    },
+    "shadows": [
+      {
+        "name": "float",
+        "value": "0 6px 20px rgb(0 0 0 / 0.12), 0 1px 3px rgb(0 0 0 / 0.06)",
+        "purpose": "Menus, dialogs, command palette, sheets, and the search pill on hover."
+      },
+      {
+        "name": "pill",
+        "value": "0 1px 2px rgb(0 0 0 / 0.08), 0 4px 12px rgb(0 0 0 / 0.05)",
+        "purpose": "Search pill at rest; account and trial pills on hover or open."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-change",
+        "value": "150ms ease (Tailwind default cubic-bezier(0.4, 0, 0.2, 1))",
+        "purpose": "Background, border and colour changes on buttons, inputs and nav rows."
+      },
+      {
+        "name": "press",
+        "value": "transform: scale(0.98)",
+        "purpose": "Button :active feedback."
+      },
+      {
+        "name": "skeleton-pulse",
+        "value": "animate-pulse under prefers-reduced-motion: no-preference",
+        "purpose": "Loading skeletons only."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "note": "Sidebar and account pill appear; tab bar hides."
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ],
+    "focus": {
+      "value": "outline: 2px solid #222222; outline-offset: 2px",
+      "scope": "Every :focus-visible element; inputs also turn their border ink."
+    },
+    "touch": {
+      "value": "min 44px under pointer: coarse",
+      "scope": "Buttons, icon buttons, menu items, nav rows, trial pill."
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one primary action on a view: green, 8px radius.",
+      "html": "<button class=\"ds-btn-primary\">Create reservation</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 20px;border:0;border-radius:8px;background:var(--primary,#0b7a55);color:var(--primary-foreground,#fff);font:600 15px/1.2 var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color .15s,transform .15s}.ds-btn-primary:hover{background:var(--primary-hover,#086446)}.ds-btn-primary:active{transform:scale(.98)}.ds-btn-primary:focus-visible{outline:2px solid var(--ring,#222);outline-offset:2px}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Partner to a primary action: 1px ink border on white.",
+      "html": "<button class=\"ds-btn-outline\">Sign in</button>",
+      "css": ".ds-btn-outline{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 20px;border:1px solid var(--foreground,#222);border-radius:8px;background:var(--background,#fff);color:var(--foreground,#222);font:600 15px/1.2 var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color .15s,transform .15s}.ds-btn-outline:hover{background:var(--muted,#f7f7f7)}.ds-btn-outline:active{transform:scale(.98)}.ds-btn-outline:focus-visible{outline:2px solid var(--ring,#222);outline-offset:2px}"
+    },
+    {
+      "name": "Dark Button",
+      "kind": "button",
+      "refersTo": "button-dark",
+      "description": "Strong secondary action only; never a second primary.",
+      "html": "<button class=\"ds-btn-dark\">Assign room</button>",
+      "css": ".ds-btn-dark{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 20px;border:0;border-radius:8px;background:var(--foreground,#222);color:var(--background,#fff);font:600 15px/1.2 var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color .15s,transform .15s}.ds-btn-dark:hover{background:#000}.ds-btn-dark:active{transform:scale(.98)}.ds-btn-dark:focus-visible{outline:2px solid var(--ring,#222);outline-offset:2px}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "48px field with a 3:1 control edge; border turns ink on hover and focus.",
+      "html": "<label class=\"ds-label\" for=\"ds-email\">Email</label><input id=\"ds-email\" class=\"ds-input\" placeholder=\"you@yourhotel.com\">",
+      "css": ".ds-label{display:block;margin-bottom:8px;font:600 15px/1 var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif;color:var(--foreground,#222)}.ds-input{display:flex;width:100%;min-height:48px;padding:12px 16px;border:1px solid var(--input,#8e8e8e);border-radius:8px;background:var(--background,#fff);color:var(--foreground,#222);font:400 16px/1.5 var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif;transition:border-color .15s}.ds-input::placeholder{color:var(--muted-foreground,#6a6a6a)}.ds-input:hover,.ds-input:focus-visible{border-color:var(--foreground,#222)}.ds-input:focus-visible{outline:2px solid var(--ring,#222);outline-offset:2px}"
+    },
+    {
+      "name": "Search Pill",
+      "kind": "custom",
+      "refersTo": "search-pill",
+      "description": "Top-bar search that opens the ⌘K palette: white pill, soft lift.",
+      "html": "<button class=\"ds-search\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><span>Search guests, reservations, rooms…</span><kbd>⌘K</kbd></button>",
+      "css": ".ds-search{display:flex;align-items:center;gap:12px;width:100%;max-width:448px;height:48px;padding:0 8px 0 16px;border:1px solid var(--border,#ebebeb);border-radius:9999px;background:var(--background,#fff);color:var(--foreground,#222);font:500 15px/1 var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif;text-align:left;cursor:pointer;box-shadow:var(--elevation-pill,0 1px 2px rgb(0 0 0/.08),0 4px 12px rgb(0 0 0/.05));transition:box-shadow .15s}.ds-search span{flex:1}.ds-search kbd{padding:4px 10px;border-radius:9999px;background:var(--muted,#f7f7f7);color:var(--muted-foreground,#6a6a6a);font:600 12px/1 inherit}.ds-search:hover{box-shadow:var(--elevation-float,0 6px 20px rgb(0 0 0/.12),0 1px 3px rgb(0 0 0/.06))}.ds-search:focus-visible{outline:2px solid var(--ring,#222);outline-offset:2px}"
+    },
+    {
+      "name": "Sidebar Navigation",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Desktop sidebar rows: active is Soft Fill with semibold ink.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item\" aria-current=\"page\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"9\" rx=\"1\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"5\" rx=\"1\"/><rect x=\"14\" y=\"12\" width=\"7\" height=\"9\" rx=\"1\"/><rect x=\"3\" y=\"16\" width=\"7\" height=\"5\" rx=\"1\"/></svg>Dashboard</a><a class=\"ds-nav-item\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M16 2v4M8 2v4M3 10h18\"/></svg>Calendar</a></nav>",
+      "css": ".ds-nav{display:flex;flex-direction:column;gap:2px;width:240px}.ds-nav-item{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 12px;border-radius:8px;color:var(--muted-foreground,#6a6a6a);font:500 15px/1 var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif;text-decoration:none;transition:background-color .15s,color .15s}.ds-nav-item:hover{background:var(--muted,#f7f7f7);color:var(--foreground,#222)}.ds-nav-item[aria-current=page]{background:var(--muted,#f7f7f7);color:var(--foreground,#222);font-weight:600}.ds-nav-item:focus-visible{outline:2px solid var(--ring,#222);outline-offset:2px}"
+    },
+    {
+      "name": "Phone Tab Bar",
+      "kind": "nav",
+      "refersTo": "tab-bar-item-active",
+      "description": "Bottom tabs on phones; the active tab turns Lodgely Green.",
+      "html": "<nav class=\"ds-tabs\"><a class=\"ds-tab\" aria-current=\"page\" href=\"#\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"9\" rx=\"1\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"5\" rx=\"1\"/><rect x=\"14\" y=\"12\" width=\"7\" height=\"9\" rx=\"1\"/><rect x=\"3\" y=\"16\" width=\"7\" height=\"5\" rx=\"1\"/></svg>Dashboard</a><a class=\"ds-tab\" href=\"#\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M16 2v4M8 2v4M3 10h18\"/></svg>Calendar</a><a class=\"ds-tab\" href=\"#\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\"><path d=\"M4 6h16M4 12h16M4 18h16\"/></svg>Menu</a></nav>",
+      "css": ".ds-tabs{display:flex;height:64px;width:100%;max-width:390px;border-top:1px solid var(--border,#ebebeb);background:var(--background,#fff)}.ds-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--muted-foreground,#6a6a6a);font:600 11px/1 var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif;text-decoration:none}.ds-tab[aria-current=page]{color:var(--primary,#0b7a55)}.ds-tab:focus-visible{outline:2px solid var(--ring,#222);outline-offset:2px}"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Resting surface: white, 1px hairline, 12px corners, no shadow.",
+      "html": "<div class=\"ds-card\"><h3>Tonight</h3><p>9 of 14 rooms sold.</p></div>",
+      "css": ".ds-card{max-width:360px;padding:24px;border:1px solid var(--border,#ebebeb);border-radius:12px;background:var(--card,#fff);color:var(--card-foreground,#222);font-family:var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif}.ds-card h3{margin:0;font:600 18px/1.375 inherit;font-family:inherit}.ds-card p{margin:4px 0 0;font-size:15px;color:var(--muted-foreground,#6a6a6a)}"
+    },
+    {
+      "name": "Empty State",
+      "kind": "card",
+      "refersTo": "empty-state",
+      "description": "Plain-words placeholder on the Soft Fill panel.",
+      "html": "<section class=\"ds-empty\"><h2>Nothing to show for today yet</h2><p>Once your hotel's rooms, rates and reservations are in Lodgely, today's arrivals and departures appear here.</p></section>",
+      "css": ".ds-empty{padding:40px 32px;border-radius:12px;background:var(--muted,#f7f7f7);color:var(--foreground,#222);font-family:var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif}.ds-empty h2{margin:0;font-size:22px;font-weight:600;letter-spacing:-0.025em}.ds-empty p{margin:8px 0 0;max-width:36rem;font-size:16px;line-height:1.625;color:var(--muted-foreground,#6a6a6a)}"
+    },
+    {
+      "name": "Badges and Warning Banner",
+      "kind": "chip",
+      "refersTo": "badge-default",
+      "description": "Pill badges and the amber action-needed banner.",
+      "html": "<div class=\"ds-row\"><span class=\"ds-badge ds-badge-green\">New</span><span class=\"ds-badge\">Improved</span><span class=\"ds-badge ds-badge-warn\">Unpaid</span></div><div class=\"ds-banner\" role=\"status\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3Z\"/><path d=\"M12 9v4M12 17h.01\"/></svg>3 reservations need your validation</div>",
+      "css": ".ds-row{display:flex;gap:8px;margin-bottom:16px}.ds-badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:9999px;background:var(--muted,#f7f7f7);color:var(--foreground,#222);font:600 13px/1.4 var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif}.ds-badge-green{background:var(--primary-soft,#e7f4ee);color:var(--primary,#0b7a55)}.ds-badge-warn{background:var(--warning,#fef6e0);color:var(--warning-foreground,#5c4200)}.ds-banner{display:flex;align-items:flex-start;gap:12px;max-width:480px;padding:14px 16px;border:1px solid var(--warning-border,#f3d98b);border-radius:12px;background:var(--warning,#fef6e0);color:var(--warning-foreground,#5c4200);font:400 15px/1.5 var(--font-figtree,Figtree),ui-sans-serif,system-ui,sans-serif}.ds-banner svg{flex-shrink:0;margin-top:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Host's Front Desk",
+    "overview": "Lodgely is conventional hospitality software made at the craft level of the Airbnb host app: white, bold, friendly and phone-native. An owner-operator opens it between guests, often on a phone, and should know where everything lives at a glance. The page is paper white with near-black ink; hierarchy comes from weight and size in one typeface, from a soft grey fill, and from hairlines, not from colour. One green accent marks the thing you can do and the place you are.\n\nThis world replaced an earlier cream-ground, serif-display, tracked-caps look that the owner retired as reading \"AI-made\". It equally refuses the grey enterprise admin: headings are big and bold in sentence case, controls are large and touch-sized, and floating things (search, menus, dialogs, sheets) lift with a soft shadow while resting surfaces stay flat. On phones the app behaves like a native hosting app: a bottom tab bar, a Menu tab that raises a bottom sheet, and the same bold greeting as desktop.\n\nDensity is relaxed. Pages breathe (40px top padding on desktop, 32 to 40px under page headers), controls are 44 to 48px tall, and running text is 15px with generous line height.",
+    "keyCharacteristics": [
+      "White paper, #222 ink, grey secondary text, #EBEBEB hairlines.",
+      "One accent, Lodgely green, for primary actions, current location on phones, and selection.",
+      "Figtree for everything; heavy weights and negative tracking for big headings; sentence case throughout.",
+      "8px controls, 12px cards and menus, 16px sheets, full pills for search, account, trial and badges.",
+      "Flat resting surfaces with hairlines; soft two-layer shadows only on floating layers.",
+      "Phone-first navigation: bottom tabs plus a Menu bottom sheet; 44px touch targets under coarse pointers."
+    ],
+    "rules": [
+      {
+        "name": "The One Green Rule",
+        "body": "Green means \"do this\" or \"you are here\" (on phones). Headings, icons, borders and decoration stay ink or grey. On desktop the active sidebar item is a Soft Fill with semibold ink, not green.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Greys Rule",
+        "body": "Hairline (`#EBEBEB`) is for surfaces that only need separating; Control Edge (`#8E8E8E`) is for anything a user types into. Never swap them.",
+        "section": "colors"
+      },
+      {
+        "name": "The Sentence Case Rule",
+        "body": "Every heading, label, button and section label is sentence case at normal tracking. Hierarchy is carried by weight and size, never by uppercase letter-spacing.",
+        "section": "typography"
+      },
+      {
+        "name": "The Weight Ladder Rule",
+        "body": "800 for hero and display, 700 for page titles, 600 for titles, labels and active states, 500 for inactive nav, 400 for body.",
+        "section": "typography"
+      },
+      {
+        "name": "The Thumb Rule",
+        "body": "Every interactive target is at least 44px under a coarse pointer (buttons, icon buttons, menu items, nav rows, trial pill, logo link). Small sizes exist only for fine pointers.",
+        "section": "layout"
+      },
+      {
+        "name": "The Hairline At Rest Rule",
+        "body": "A card that sits on the page has a border, not a shadow. Shadow is earned by floating above the page or by being the pill you are about to press.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do build every screen on Paper (`#ffffff`) with Ink text and Secondary Grey for supporting copy.",
+      "Do use Lodgely Green for the single primary action on a view and for phone tab selection; nothing else.",
+      "Do separate resting surfaces with 1px Hairline borders and 12px corners; lift only floating layers with the Float or Pill shadow.",
+      "Do set headings in Figtree bold or extrabold, sentence case, with tight tracking; keep body at 15px regular.",
+      "Do give every control a 44px target under coarse pointers, and rely on the global 2px ink focus outline at 2px offset.",
+      "Do use Control Edge (`#8e8e8e`) for input borders so they hold 3:1 on white and on Soft Fill.",
+      "Do say \"nothing here yet\" with the Soft Fill empty-state panel and plain words, never with fake data.",
+      "Do use the Notice palette for \"action needed\" and \"not connected\" states, and Alert Red only for errors and destructive actions."
+    ],
+    "donts": [
+      "Don't bring back the retired world: no cream ground, no serif display face, no uppercase tracked micro-labels or eyebrow kickers above headings.",
+      "Don't use a coloured left rule (or any border thicker than 1px) as a card accent; KPI and status states use tinted fills and badges.",
+      "Don't put a shadow on a resting card.",
+      "Don't give the dark button or a pill a primary role; there is one primary treatment (green, 8px).",
+      "Don't use the sparkle glyph for any destination; it reads as the \"AI\" icon.",
+      "Don't use raw hex in components; use the tokens (`bg-primary`, `text-muted-foreground`, `border-input`, `bg-warning`). Third-party brand marks (the Google \"G\") are the only exception.",
+      "Don't let Lodgely headline a guest-facing page; the hotel owns it and Lodgely is a quiet credit."
+    ]
+  }
+}
