@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { divRound, formatMoney, percentOf, taxFromInclusive, taxOnTop } from "./math";
+import { allocate, divRound, formatMoney, percentOf, taxFromInclusive, taxOnTop } from "./math";
 
 describe("divRound", () => {
   it("rounds halves away from zero", () => {
@@ -51,5 +51,37 @@ describe("formatMoney", () => {
   it("formats minor units in the hotel's currency", () => {
     expect(formatMoney(12345, "GBP")).toBe("£123.45");
     expect(formatMoney(5000, "EUR", "en-GB")).toBe("€50.00");
+  });
+});
+
+describe("allocate", () => {
+  it("splits in proportion and always sums exactly", () => {
+    expect(allocate(1000, [44700, 3000])).toEqual([937, 63]);
+    expect(allocate(100, [1, 1, 1])).toEqual([34, 33, 33]);
+    expect(allocate(2, [1, 1, 1])).toEqual([1, 1, 0]);
+    for (const amount of [0, 1, 7, 999, 12345]) {
+      const shares = allocate(amount, [3, 5, 7, 11]);
+      expect(shares.reduce((s, x) => s + x, 0)).toBe(amount);
+    }
+  });
+
+  it("splits negative amounts symmetrically", () => {
+    expect(allocate(-100, [1, 1, 1])).toEqual([-34, -33, -33]);
+  });
+
+  it("puts everything on the first share when all weights are zero", () => {
+    expect(allocate(500, [0, 0])).toEqual([500, 0]);
+    expect(allocate(0, [])).toEqual([]);
+  });
+
+  it("stays exact beyond 2^53 intermediate products", () => {
+    const shares = allocate(90_000_000_00, [70_000_000_00, 20_000_000_00]);
+    expect(shares).toEqual([70_000_000_00, 20_000_000_00]);
+  });
+
+  it("refuses fractions, negative weights and an empty target", () => {
+    expect(() => allocate(1.5, [1])).toThrow(RangeError);
+    expect(() => allocate(1, [-1, 2])).toThrow(RangeError);
+    expect(() => allocate(1, [])).toThrow(RangeError);
   });
 });

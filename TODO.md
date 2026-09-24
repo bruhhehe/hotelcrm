@@ -22,16 +22,20 @@ Deferred items, grouped by the phase expected to pick them up. Remove an item wh
 
 - [ ] **Rotate the Neon database password** (Neon console → Roles → reset). The connection string was pasted into a chat, so treat it as exposed. Then update Vercel's env vars and your local `.env.neon`.
 
-## Phase 3
-
-- [ ] Price quotes (`quote()`) must replace the seed's simplified seasonal pricing in `scripts/seed/generate.ts` (`nightPrice`), so seeded prices and engine prices agree.
-- [ ] Reservation creation must lock the room type's date range (spec §6.1); the exclusion constraint only guards assigned rooms.
-
 ## Phase 4 / 6
+
+- [ ] Reservation create/edit must call `reserveInventory()` inside its transaction before inserting `reservation_rooms` (spec §6.1), and store `priceStay()`'s nightly breakdown.
+- [ ] Assigning or moving a booking to a room of another type must lock both room types (`lockRoomTypes`), since the booking then uses the other type's inventory (DECISIONS 3.3).
+- [ ] Availability → Guest planning tab (14-day presence bars, guests in house per day). It reads reservations, so it lands with the reservations list or the calendar (Phase 5).
+- [ ] Settings → Rooms: room photos (Vercel Blob) and drag-to-reorder room types and rooms (`sortOrder` exists).
 
 - [ ] ⌘K palette: add guest / reservation / room results (it only navigates between sections today).
 - [ ] Enable the "+" quick-create items (Reservation, Guest).
 - [ ] Notifications bell: read from the `notifications` table.
+
+## Phase 7
+
+- [ ] Settings → Rates: edit cancellation policies and tax rates (rate plans can pick an existing policy today; the seed creates them).
 
 ## Phase 10
 
@@ -40,6 +44,8 @@ Deferred items, grouped by the phase expected to pick them up. Remove an item wh
 
 ## Phase 13
 
+- [ ] Hide sidebar items a role can't open (pages already refuse them).
+- [ ] Settings → Information: hotel-wide minimum stay (`settings.defaultMinNights`, already used by the engine), deposit policy and check-in times.
 - [ ] i18n scaffold (next-intl or similar) for FR, DE, NL, ES. Keep copy in components easy to extract until then.
 
 ## Phase 17

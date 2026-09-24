@@ -33,6 +33,39 @@ export function taxOnTop(net: number, rateBp: number): number {
   return percentOf(net, rateBp);
 }
 
+/**
+ * Split `amount` across `weights` in proportion, in whole minor units, so the shares always sum
+ * to exactly `amount` (largest-remainder method; ties go to the earlier weight). Used to spread a
+ * discount over lines with different tax rates. With all-zero weights the whole amount lands on
+ * the first share.
+ */
+export function allocate(amount: number, weights: readonly number[]): number[] {
+  if (!Number.isInteger(amount) || weights.some((w) => !Number.isInteger(w) || w < 0)) {
+    throw new RangeError("allocate needs an integer amount and non-negative integer weights");
+  }
+  if (weights.length === 0) {
+    if (amount !== 0) throw new RangeError("allocate: nothing to allocate to");
+    return [];
+  }
+  const total = weights.reduce((sum, w) => sum + w, 0);
+  if (total === 0) return weights.map((_, i) => (i === 0 ? amount : 0));
+
+  // BigInt: amount × weight can pass 2^53 for large stays.
+  const sign = amount < 0 ? -1n : 1n;
+  const abs = BigInt(Math.abs(amount));
+  const sum = BigInt(total);
+  const shares = weights.map((w) => (abs * BigInt(w)) / sum);
+  const remainders = weights.map((w, i) => ({ i, r: (abs * BigInt(w)) % sum }));
+  let left = abs - shares.reduce((s, x) => s + x, 0n);
+  remainders.sort((a, b) => (a.r === b.r ? a.i - b.i : a.r > b.r ? -1 : 1));
+  for (const { i } of remainders) {
+    if (left === 0n) break;
+    shares[i] = shares[i]! + 1n;
+    left--;
+  }
+  return shares.map((s) => Number(s * sign));
+}
+
 /** Format minor units for display, in the hotel's currency and locale. */
 export function formatMoney(amount: number, currency: string, locale = "en-GB"): string {
   return new Intl.NumberFormat(locale, { style: "currency", currency }).format(amount / 100);

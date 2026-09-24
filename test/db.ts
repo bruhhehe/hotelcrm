@@ -10,9 +10,10 @@ export const describeDb = TEST_DATABASE_URL
   ? (await import("vitest")).describe
   : (await import("vitest")).describe.skip;
 
-export function connectTestDb(): { db: NodePgDatabase<typeof schema>; pool: Pool } {
+/** `max` connections: raise it for tests that race concurrent transactions. */
+export function connectTestDb(max = 2): { db: NodePgDatabase<typeof schema>; pool: Pool } {
   if (!TEST_DATABASE_URL) throw new Error("TEST_DATABASE_URL is not set");
-  const pool = new Pool({ connectionString: TEST_DATABASE_URL, max: 2 });
+  const pool = new Pool({ connectionString: TEST_DATABASE_URL, max });
   return { db: drizzle(pool, { schema }), pool };
 }
 

@@ -4,6 +4,8 @@ import { zonedTimeToUtc } from "@/lib/dates/zoned";
 import type * as schema from "@/lib/db/schema";
 import type { InvoiceLine } from "@/lib/db/schema";
 import { percentOf, taxFromInclusive } from "@/lib/money/math";
+import { nightlyRates, type PriceAdjustmentRow } from "@/lib/pricing/nightly";
+import { type PriceChange, quote, type QuoteExtraInput, type TaxRate } from "@/lib/pricing/quote";
 import { formatReservationReference } from "@/lib/reservations/reference";
 import {
   DEMO_HOTEL,
@@ -294,15 +296,26 @@ export function generateSeed(options: SeedOptions): SeedPlan {
       repeatsYearly: false,
     },
   ];
-  /** Nightly price after seasonal adjustments (the Phase 3 engine replaces this). */
-  const nightPrice = (typeKey: RoomTypeKey, planKey: RatePlanKey, night: string) => {
+  // Stays are priced by the real engine, so seeded totals are exactly what quote() gives.
+  const adjustmentRows: PriceAdjustmentRow[] = priceAdjustments.map((a) => ({
+    id: a.id,
+    ratePlanId: a.ratePlanId ?? null,
+    roomTypeId: a.roomTypeId ?? null,
+    dateFrom: a.dateFrom,
+    dateTo: a.dateTo,
+    repeatsYearly: a.repeatsYearly ?? false,
+    weekdayMask: a.weekdayMask ?? 127,
+    type: a.type,
+    value: a.value,
+    label: a.label,
+    createdAt: now,
+  }));
+  const planFor = (typeKey: RoomTypeKey, planKey: RatePlanKey) => {
     const plan = ratePlans.find((p) => p.id === ratePlanId.get(`${typeKey}:${planKey}`));
-    let price = plan!.baseNightlyPrice;
-    const md = night.slice(5);
-    if (md >= "07-01" && md <= "08-31") price += percentOf(price, 2000);
-    else if (night >= halfTerm.from && night <= halfTerm.to) price += percentOf(price, 1000);
-    return price;
+    if (!plan) throw new Error(`rate plan ${typeKey}:${planKey}`);
+    return { id: plan.id, roomTypeId: plan.roomTypeId, baseNightlyPrice: plan.baseNightlyPrice };
   };
+  const VAT_RATE: TaxRate = { name: "VAT 20%", rateBp: VAT_BP, mode: "included" };
 
   const extras: SeedPlan["extras"] = EXTRAS.map((e, i) => ({
     id: createId(),
@@ -347,6 +360,18 @@ export function generateSeed(options: SeedOptions): SeedPlan {
     value: 2000,
     maxUses: 50,
     usedCount: 0,
+  };
+
+  /** Fields the seed's two codes leave at their column defaults, for the pricing engine. */
+  const promoDefaults = {
+    roomTypeIds: [] as string[],
+    minNights: null,
+    maxNights: null,
+    validFrom: null,
+    validTo: null,
+    maxUses: null,
+    usedCount: 0,
+    isActive: true,
   };
 
   // ── Guests ─────────────────────────────────────────────────────────────────
@@ -631,12 +656,12 @@ export function generateSeed(options: SeedOptions): SeedPlan {
     const plan = RATE_PLANS.find((p) => p.key === s.ratePlanKey)!;
     const policy = plan.policy === "flexible" ? flexible : nonRefundable;
     const nights = eachNight(s.checkIn, s.checkOut);
-    const nightlyPrices = nights.map((date) => ({
-      date,
-      amount: nightPrice(s.typeKey, s.ratePlanKey, date),
-    }));
-    const roomsTotal = nightlyPrices.reduce((sum, n) => sum + n.amount, 0);
-    const guestsCount = s.adults + s.children;
+    const nightlyPrices = nightlyRates(
+      planFor(s.typeKey, s.ratePlanKey),
+      adjustmentRows,
+      s.checkIn,
+      s.checkOut,
+    ).map((n) => ({ date: n.date, amount: n.amount }));
 
     // Extras
     const chosen: ExtraKey[] = [];
@@ -650,57 +675,77 @@ export function generateSeed(options: SeedOptions): SeedPlan {
     if (rng.chance(0.06)) chosen.push("late");
     if (rng.chance(0.05)) chosen.push("transfer");
     if (rng.chance(0.05)) chosen.push("spa");
-    let extrasTotal = 0;
-    const extraLines: InvoiceLine[] = [];
-    for (const key of chosen) {
+    const extraInputs: QuoteExtraInput[] = chosen.map((key) => {
       const { def, row } = extraByKey(key);
-      const qty =
-        def.pricingMode === "per_booking"
-          ? 1
-          : def.pricingMode === "per_night"
-            ? nights.length
-            : def.pricingMode === "per_guest"
-              ? guestsCount
-              : guestsCount * nights.length;
-      const total = qty * def.price;
-      extrasTotal += total;
+      return {
+        extraId: row.id,
+        name: def.name,
+        unitPrice: def.price,
+        pricingMode: def.pricingMode,
+        tax: VAT_RATE,
+      };
+    });
+
+    // Promo codes on some direct bookings
+    let change: PriceChange | null = null;
+    if (s.source === "website" && s.status !== "pending_validation") {
+      if (nights.length >= 2 && rng.chance(0.1)) {
+        change = { type: "promo", promo: { ...promoDefaults, ...lakes10 } };
+      } else if (welcomeUses < 3 && rng.chance(0.2)) {
+        change = {
+          type: "promo",
+          promo: { ...promoDefaults, ...welcome20, usedCount: welcomeUses },
+        };
+      }
+    }
+    const priced = quote({
+      checkIn: s.checkIn,
+      checkOut: s.checkOut,
+      adults: s.adults,
+      children: s.children,
+      rooms: [
+        {
+          roomTypeId: roomTypeIdByKey.get(s.typeKey)!,
+          ratePlanId: ratePlanId.get(`${s.typeKey}:${s.ratePlanKey}`)!,
+          label: `${rt.name} · ${plan.name}`,
+          nights: nightlyPrices,
+          tax: VAT_RATE,
+        },
+      ],
+      extras: extraInputs,
+      change,
+      deposit: { type: "percentage", value: DEPOSIT_BP, balanceDue: "on_arrival", daysBefore: 7 },
+      today,
+    });
+    const roomsTotal = priced.roomsTotal;
+    const promoCodeId = priced.discount?.promoCodeId ?? null;
+    const discount = priced.discount?.amount ?? 0;
+    if (promoCodeId === welcome20.id) welcomeUses++;
+    const total = priced.total;
+    const extraLines: InvoiceLine[] = [];
+    for (const e of priced.extras) {
       reservationExtras.push({
         id: createId(),
         hotelId,
         reservationId: s.id,
-        extraId: row.id,
-        name: def.name,
-        pricingMode: def.pricingMode,
+        extraId: e.extraId,
+        name: e.name,
+        pricingMode: e.pricingMode,
         taxRateBp: VAT_BP,
-        qty,
-        unitPrice: def.price,
-        total,
+        qty: e.quantity,
+        unitPrice: e.unitPrice,
+        total: e.total,
       });
       extraLines.push({
-        description: def.name,
-        quantity: qty,
-        unitAmount: def.price,
-        total,
+        description: e.name,
+        quantity: e.quantity,
+        unitAmount: e.unitPrice,
+        total: e.total,
         taxRateBp: VAT_BP,
         taxMode: "included",
-        taxAmount: taxFromInclusive(total, VAT_BP),
+        taxAmount: taxFromInclusive(e.total, VAT_BP),
       });
     }
-
-    // Promo codes on some direct bookings
-    let promoCodeId: string | null = null;
-    let discount = 0;
-    if (s.source === "website" && s.status !== "pending_validation") {
-      if (nights.length >= 2 && rng.chance(0.1)) {
-        promoCodeId = lakes10.id;
-        discount = percentOf(roomsTotal, lakes10.value);
-      } else if (welcomeUses < 3 && rng.chance(0.2)) {
-        promoCodeId = welcome20.id;
-        discount = Math.min(welcome20.value, roomsTotal);
-        welcomeUses++;
-      }
-    }
-    const total = roomsTotal + extrasTotal - discount;
 
     // Status timestamps
     const confirmedAt =
@@ -911,7 +956,7 @@ export function generateSeed(options: SeedOptions): SeedPlan {
       own.push(pay(total, "full", "stripe", upfrontAt));
       paid = total;
     } else if (direct && !(s.status === "confirmed" && rng.chance(0.1))) {
-      const deposit = percentOf(total, DEPOSIT_BP);
+      const deposit = priced.deposit;
       if (deposit > 0) {
         own.push(pay(deposit, "deposit", "stripe", upfrontAt));
         paid = deposit;
