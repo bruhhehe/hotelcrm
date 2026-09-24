@@ -16,7 +16,7 @@ import { UserMenu } from "./user-menu";
 
 export function Topbar({ user, trialEndsAt }: { user: StaffUser; trialEndsAt: Date | null }) {
   return (
-    <header className="sticky top-0 z-20 flex h-topbar items-center gap-2 border-b bg-background/85 px-4 backdrop-blur sm:gap-3 sm:px-6">
+    <header className="sticky top-0 z-20 flex h-topbar items-center gap-2 border-b bg-background px-4 sm:gap-3 sm:px-6">
       <MobileNav />
       <div className="min-w-0 flex-1">
         <CommandPalette />

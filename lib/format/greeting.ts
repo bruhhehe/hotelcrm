@@ -24,3 +24,13 @@ export function longDate(now: Date, timeZone: string, locale = "en-GB"): string 
     parts.find((p) => p.type === type)?.value ?? "";
   return `${get("weekday")} ${get("day")} ${get("month")} ${get("year")}`;
 }
+
+/** The calendar date in the hotel's timezone as YYYY-MM-DD (for `<time dateTime>`). */
+export function isoDateIn(now: Date, timeZone: string): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone,
+  }).format(now);
+}

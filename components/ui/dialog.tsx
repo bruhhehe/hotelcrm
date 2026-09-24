@@ -15,7 +15,7 @@ export function DialogOverlay({
 }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
   return (
     <DialogPrimitive.Overlay
-      className={cn("fixed inset-0 z-50 bg-[#1c1b18]/40 backdrop-blur-[2px]", className)}
+      className={cn("fixed inset-0 z-50 bg-overlay", className)}
       {...props}
     />
   );
@@ -39,7 +39,7 @@ export function DialogContent({
       >
         {children}
         {hideClose ? null : (
-          <DialogPrimitive.Close className="absolute top-4 right-4 rounded-md p-1 text-muted-foreground hover:bg-accent">
+          <DialogPrimitive.Close className="absolute top-3 right-3 flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:size-11">
             <XIcon className="size-4" />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>

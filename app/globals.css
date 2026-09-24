@@ -36,9 +36,16 @@
   --warning-foreground: #8a4b00;
   --warning-border: #f3dc84;
 
+  /* Decorative container edges (cards, dividers): no contrast requirement. */
   --border: #e7e2d6;
-  --input: #ddd6c7;
+  /* Form-control boundaries: ≥3:1 against card and page (WCAG 1.4.11). */
+  --input: #8f8676;
+  /* Focus indicator: solid, ≥4.5:1 on every surface. */
   --ring: #1f7a3d;
+
+  /* Modal scrim and resting card elevation */
+  --overlay: rgb(28 27 24 / 0.4);
+  --elevation-card: 0 1px 2px rgb(28 27 24 / 0.05), 0 1px 3px rgb(28 27 24 / 0.03);
 
   /* KPI left rules */
   --kpi-green: #1f7a3d;
@@ -79,6 +86,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-overlay: var(--overlay);
+  --shadow-card: var(--elevation-card);
   --color-sidebar: var(--sidebar);
   --color-kpi-green: var(--kpi-green);
   --color-kpi-indigo: var(--kpi-indigo);
@@ -100,11 +109,15 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+    outline-color: var(--ring);
   }
 
   html {
     -webkit-text-size-adjust: 100%;
+    accent-color: var(--primary);
+    caret-color: var(--primary);
+    scrollbar-color: var(--input) transparent;
   }
 
   body {
@@ -116,6 +129,26 @@
   h2,
   h3 {
     @apply font-display tracking-tight;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--primary-soft);
+    color: var(--foreground);
+  }
+
+  /* One focus indicator for every control: solid, offset, keyboard-only. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  a {
+    text-underline-offset: 0.2em;
   }
 }
 

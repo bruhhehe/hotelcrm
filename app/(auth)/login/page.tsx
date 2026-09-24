@@ -29,7 +29,9 @@ export default async function LoginPage({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">Sign in to Lodgely</CardTitle>
+        <CardTitle as="h1" className="text-2xl">
+          Sign in to Lodgely
+        </CardTitle>
         <CardDescription>No password needed — we&apos;ll email you a secure link.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-5">

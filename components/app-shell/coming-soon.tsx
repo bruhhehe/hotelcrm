@@ -20,7 +20,7 @@ export function ComingSoon({
   return (
     <>
       <PageHeader title={title} description={description} />
-      <EmptyState icon={icon} title="Not set up yet" description={what} />
+      <EmptyState icon={icon} title="Not available yet" description={what} />
     </>
   );
 }

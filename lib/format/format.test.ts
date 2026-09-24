@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { greetingFor, longDate } from "./greeting";
+import { greetingFor, isoDateIn, longDate } from "./greeting";
 import { firstNameFor, initialsFor } from "./names";
 
 describe("initialsFor", () => {
@@ -44,5 +44,13 @@ describe("longDate", () => {
     expect(longDate(new Date("2026-09-24T23:30:00Z"), "Europe/London")).toBe(
       "Friday 25 September 2026",
     );
+  });
+});
+
+describe("isoDateIn", () => {
+  it("returns the hotel-local calendar date", () => {
+    // 23:30 UTC on the 24th is already the 25th in London (BST)
+    expect(isoDateIn(new Date("2026-09-24T23:30:00Z"), "Europe/London")).toBe("2026-09-25");
+    expect(isoDateIn(new Date("2026-09-24T23:30:00Z"), "America/Toronto")).toBe("2026-09-24");
   });
 });

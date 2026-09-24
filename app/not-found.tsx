@@ -5,9 +5,10 @@ import { EmptyState } from "@/components/ui/empty-state";
 
 export default function NotFound() {
   return (
-    <div className="mx-auto flex min-h-dvh max-w-xl items-center px-4">
+    <main className="mx-auto flex min-h-dvh max-w-xl items-center px-4">
       <EmptyState
         className="w-full"
+        headingLevel="h1"
         icon={Compass}
         title="Page not found"
         description="The page you're looking for doesn't exist or has moved."
@@ -17,6 +18,6 @@ export default function NotFound() {
           </Button>
         }
       />
-    </div>
+    </main>
   );
 }

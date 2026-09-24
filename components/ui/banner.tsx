@@ -14,10 +14,18 @@ const bannerVariants = cva("flex items-start gap-3 rounded-2xl border px-4 py-3 
   defaultVariants: { variant: "info" },
 });
 
+/** Errors interrupt (`alert`); everything else is a polite `status`. Override with `role`. */
 export function Banner({
   className,
   variant,
+  role,
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof bannerVariants>) {
-  return <div role="status" className={cn(bannerVariants({ variant }), className)} {...props} />;
+  return (
+    <div
+      role={role ?? (variant === "destructive" ? "alert" : "status")}
+      className={cn(bannerVariants({ variant }), className)}
+      {...props}
+    />
+  );
 }

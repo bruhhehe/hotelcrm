@@ -3,5 +3,5 @@
  * hotel branding (logo, colour) is applied per hotel once hotels exist (Phase 8).
  */
 export default function WidgetLayout({ children }: { children: React.ReactNode }) {
-  return <div className="min-h-dvh bg-background">{children}</div>;
+  return <main className="min-h-dvh bg-background">{children}</main>;
 }

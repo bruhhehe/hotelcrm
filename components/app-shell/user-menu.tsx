@@ -16,7 +16,7 @@ export function UserMenu({ user }: { user: StaffUser }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="flex size-9 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40"
+        className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground pointer-coarse:size-11"
         aria-label="Account menu"
       >
         {initialsFor(user.name, user.email)}

@@ -4,7 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center gap-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -16,11 +16,11 @@ export const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-10 px-4",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-12 rounded-xl px-6 text-base",
-        icon: "size-10",
-        "icon-sm": "size-8",
+        default: "min-h-10 px-4 py-2 pointer-coarse:min-h-11",
+        sm: "min-h-8 rounded-md px-3 py-1.5 text-xs pointer-coarse:min-h-11",
+        lg: "min-h-12 rounded-xl px-6 py-3 text-base",
+        icon: "size-10 pointer-coarse:size-11",
+        "icon-sm": "size-8 pointer-coarse:size-11",
       },
     },
     defaultVariants: { variant: "default", size: "default" },

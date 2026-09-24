@@ -9,6 +9,7 @@ export default async function BookingWidgetPage({ params }: { params: Promise<{ 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16">
       <EmptyState
+        headingLevel="h1"
         icon={CalendarX}
         title="Online booking isn't open yet"
         description="This property isn't taking online reservations through Lodgely yet. Please contact the hotel directly to book."

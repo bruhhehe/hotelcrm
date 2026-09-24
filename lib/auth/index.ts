@@ -1,6 +1,7 @@
 import "server-only";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth, { type NextAuthConfig } from "next-auth";
+import { cache } from "react";
 import Google from "next-auth/providers/google";
 import ResendProvider from "next-auth/providers/resend";
 import { Resend } from "resend";
@@ -99,8 +100,9 @@ export const { handlers, signIn, signOut } = nextAuth;
 /**
  * The current staff session, or null. Returns null without calling Auth.js when sign-in
  * isn't configured, so an unconfigured deploy doesn't log MissingSecret on every request.
+ * Memoised per request: the layout and the page both ask, but the DB is hit once.
  */
-export async function getSession() {
+export const getSession = cache(async () => {
   if (!isAuthReady()) return null;
   return nextAuth.auth();
-}
+});

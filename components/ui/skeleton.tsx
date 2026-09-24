@@ -3,6 +3,10 @@ import { cn } from "@/lib/utils";
 
 export function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div aria-hidden className={cn("animate-pulse rounded-lg bg-muted", className)} {...props} />
+    <div
+      aria-hidden
+      className={cn("rounded-lg bg-muted motion-safe:animate-pulse", className)}
+      {...props}
+    />
   );
 }

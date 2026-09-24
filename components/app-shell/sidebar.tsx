@@ -21,7 +21,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
             onClick={onNavigate}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "relative flex items-center gap-3 rounded-xl px-4 py-2.5 text-[15px] font-medium transition-colors",
+              "relative flex min-h-11 items-center gap-3 rounded-xl px-4 py-2.5 text-[15px] font-medium transition-colors",
               active
                 ? "bg-accent text-foreground before:absolute before:inset-y-2 before:left-0 before:w-[3px] before:rounded-full before:bg-primary"
                 : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
@@ -46,7 +46,11 @@ export function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
         <SidebarNav onNavigate={onNavigate} />
       </div>
       <div className="border-t px-6 py-4 text-xs text-muted-foreground">
-        <Link href="/whats-new" onClick={onNavigate} className="hover:text-foreground">
+        <Link
+          href="/whats-new"
+          onClick={onNavigate}
+          className="inline-flex min-h-8 items-center underline-offset-4 hover:text-foreground hover:underline pointer-coarse:min-h-11"
+        >
           What&apos;s new in Lodgely
         </Link>
       </div>

@@ -9,6 +9,7 @@ export default async function GuestAccountPage({ params }: { params: Promise<{ s
   return (
     <div className="mx-auto max-w-2xl px-4 py-16">
       <EmptyState
+        headingLevel="h1"
         icon={UserRound}
         title="Guest accounts aren't available yet"
         description="Soon you'll be able to see your upcoming stays, pay securely and download invoices here."

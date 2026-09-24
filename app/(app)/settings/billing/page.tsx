@@ -10,7 +10,7 @@ export default function BillingPage() {
       title="Billing"
       icon={CreditCard}
       description="Your Lodgely plan, trial and invoices."
-      what="Plans and invoices appear here once your hotel's subscription is set up. Every new hotel starts with a 30-day free trial, no card needed."
+      what="Your plan, trial and invoices will appear here. Every new hotel starts with a 30-day free trial, no card needed."
     />
   );
 }
