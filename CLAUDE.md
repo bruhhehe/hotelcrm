@@ -11,6 +11,7 @@
 - **UI:** primitives in `components/ui`, shell in `components/app-shell`. Use tokens (`bg-primary`, `bg-warning`, `micro-label`, `font-display`), never raw hex in components.
 - **Dates:** format in the hotel's timezone (`lib/format/greeting.ts` pattern). The server runs in UTC.
 - **Money / availability / pricing:** pure functions with Vitest tests, integer minor units.
+- **Design work:** the `/impeccable` skill is installed (`.claude/skills/impeccable`). Use `/impeccable audit|critique|polish <target>` on UI surfaces before calling a phase done. The spec's §9 design system wins wherever the two disagree (e.g. Inter is mandated as the body font).
 - **Docs:** record choices in `DECISIONS.md` and deferrals in `TODO.md` in the same commit.
 - **Commits:** conventional commits, one per phase (or smaller). Stop for review after each phase.
 
